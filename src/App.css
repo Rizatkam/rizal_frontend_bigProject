@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+.signup{width:30%;
+  margin-left: 35%;margin-right: 35%;}
+  .signup-header{width:100%; 
+    color: white;
+  background-color: orange; text-align: center;}
+  .signup-form{border: black solid 1px;}
