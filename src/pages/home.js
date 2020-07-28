@@ -1,8 +1,44 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import Header from '../components/user/header';
 import { Container,Row,Col,Carousel } from 'react-bootstrap';
+import { connect } from "react-redux";
+import { getListBook } from "../store/actions/books";
+import { addToCart } from "../store/actions/cart";
 
-const Home=()=>{
+// import Layout from "../templates/layout";
+// import CardBuku from "../components/card/cardBuku";
+// import CardBukuAlt from "../components/card/cardBukuAlt";
+// import Button from "../components/button/mainButton";
+
+const mapStateToProps = (state) => {
+  return {
+    books: state.bookReducer.books,
+    items: state.cartReducer.items,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getBook: () => dispatch(getListBook()),
+    addToCart: (id) => {
+      dispatch(addToCart(id));
+    },
+  };
+};
+
+const Home=(props)=>{
+  const { books, items } = props;
+  window.localStorage.setItem("username", "yogal"); // "Key", "Value"
+  window.localStorage.getItem("username");
+  //window.localStorage.removeItem("tes");
+
+  useEffect(() => {
+    props.getBook();
+  }, []);
+
+  const handleAddCart = (id) => {
+    props.addToCart(id);
+  };
     return(
 <Container>
 <Row>
@@ -46,7 +82,26 @@ const Home=()=>{
       </Carousel.Item>
     </Carousel>
 </Row>
+{/* <Row>
+            {books &&
+              books.slice(0, 2).map((val) => {
+                console.log(val, "ini vaal");
+                return (
+                  <Col lg={3}>
+                    <CardBuku dataCard={val} />
+                  </Col>
+                );
+              })}
+            {items &&
+              items.slice(0, 2).map((val) => {
+                return (
+                  <Col lg={3}>
+                    <CardBukuAlt dataCard={val} doAddToCart={handleAddCart} />
+                  </Col>
+                );
+              })}
+          </Row> */}
 </Container>
     )
 }
-export default Home;
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
