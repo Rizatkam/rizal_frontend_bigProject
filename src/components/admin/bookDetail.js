@@ -10,18 +10,19 @@ const BookDetail = ({ book, doUpdate, doDelete }) => {
     const bookStatus = book.bookStatus === "FOR_SELL" ? "info" : "warning";
 
     useEffect(() => {
-        setData({...book, bookCategory: {...book.bookCategory},
+        setData({
           id: book.id,
-          image: book.image,
+          kategori_id:book.kategori_id,
+          image_url: book.image_url,
           title: book.title,
-          synopsis: book.synopsis,
-          price: book.price,
+          description: book.description,
+          harga: book.harga,
           bookStatus: book.bookStatus,
-          authorName: book.authorName,
+          author: book.author,
           publicationDate: new Date()
         });
       }, []);
-      console.log(book.image,"Book.Image")
+      console.log(book.image_url,"Book.Image_url")
 
       return (
         <div className="App">
@@ -45,7 +46,7 @@ const BookDetail = ({ book, doUpdate, doDelete }) => {
                   className="img-fluid"
                   variant="top"
                   alt=""
-                  src={book.image}
+                  src={book.image_url}
                   width={450}
                 />
               </div>
@@ -60,13 +61,13 @@ const BookDetail = ({ book, doUpdate, doDelete }) => {
                   className="my-2 font-weight-bold"
                   style={{ color: "#8052ff" }}
                 >
-                  {`Rp ${numeral(book.price).format("0,0")}`}
+                  {`Rp ${numeral(book.harga).format("0,0")}`}
                 </h4>
                 <h5 className="my-3 text-dark text-left">
-                  Author: {book.authorName}
+                  Author: {book.author}
                 </h5>
-                <h6 className="text-left">Book Synopsis :</h6>
-                <p className="text-black-50 text-justify">{book.synopsis}</p>
+                <h6 className="text-left">Book description :</h6>
+                <p className="text-black-50 text-justify">{book.description}</p>
               </div>
             </div>
           </Card>

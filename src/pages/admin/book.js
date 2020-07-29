@@ -1,12 +1,12 @@
 // Belum Disesuaikan
 import React, { useEffect } from 'react';
 import '../../App.css';
-import Book from '../../components/book';
+import Book from '../../components/admin/book';
 import {connect} from 'react-redux';
 import {getListBook, updateBook, deleteBook} from '../../store/actions'
 
 const mapStateToProps=(state)=>{
-    return{books: state.bookReducer.books,}
+    return{books: state.store.books,}
   }
   const mapDispatchToProps=(dispatch)=>{
     return{getBook:()=>dispatch(getListBook()),

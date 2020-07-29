@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import {getBookById} from '../../store/actions'
 import numeral from 'numeral';
 import { LinkContainer } from 'react-router-bootstrap';
+import { ENDPOINT } from "../../utils/globals";
 
 const BookDetailPage = (props) => {
     const {id} = props.match.params;
@@ -37,7 +38,7 @@ const BookDetailPage = (props) => {
                 className="img-fluid"
                 variant="top"
                 alt=""
-                src="https://homepages.cae.wisc.edu/~ece533/images/airplane.png"
+                src={ENDPOINT}{book.image_url}
                 width={450}
               />
             </div>
@@ -52,13 +53,13 @@ const BookDetailPage = (props) => {
                 className="my-2 font-weight-bold"
                 style={{ color: "#8052ff" }}
               >
-                {`Rp ${numeral(book.price).format("0,0")}`}
+                {`Rp ${numeral(book.harga).format("0,0")}`}
               </h4>
               <h5 className="my-3 text-dark text-left">
-                Author: {book.authorName}
+                Author: {book.author}
               </h5>
-              <h6 className="text-left">Book Synopsis :</h6>
-              <p className="text-black-50 text-justify">{book.synopsis}</p>
+              <h6 className="text-left">Book description :</h6>
+              <p className="text-black-50 text-justify">{book.description}</p>
             </div>
           </div>
         </Card>
@@ -67,7 +68,7 @@ const BookDetailPage = (props) => {
   )
 };
 const mapStateToProps=(state)=>{
-    return{books: state.bookReducer.book}
+    return{books: state.store.book}
   }
   const mapDispatchToProps=(dispatch)=>{
     return{getBookById:(id)=>dispatch(getBookById(id))}

@@ -13,11 +13,11 @@ const cart = (state = initialState,action) => {
         state.addedItems.quantity += 1;
         return {
           ...state,
-          total: state.total + state.addedItems.price,
+          total: state.total + state.addedItems.harga,
         };
       } else {
         state.addedItems.quantity = 1;
-        let newTotal = state.total + state.addedItems.price;
+        let newTotal = state.total + state.addedItems.harga;
 
         return {
           ...state,

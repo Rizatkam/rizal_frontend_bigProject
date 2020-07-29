@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+import {registerUser} from '../store/actions';
 
 
 const mapDispatchToProps = (dispatch) => {
@@ -16,15 +17,15 @@ const Register = (props) => {
   const [warningPassword, setWarningPassword] = useState('')
   const [retypePassword, setRetypePassword] = useState('')
   const [warningRetypePassword, setWarningRetypePassword] = useState('')
-  const [nama, setNama] = useState('')
-  const [warningNama, setWarningNama] = useState('')
+  const [name, setName] = useState('')
+  const [warningName, setWarningName] = useState('')
   const onSubmitSignup = (e) => {
     e.preventDefault();
     props.register({
       email,
       password,
       retypePassword,
-      nama,
+      name,
     });
     if (
       email.includes("@") &&
@@ -33,8 +34,8 @@ const Register = (props) => {
       password.length >= 8 &&
       password.length <= 30 &&
       retypePassword === password &&
-      nama.length !== 0 &&
-      nama.length <= 15
+      name.length !== 0 &&
+      name.length <= 15
     ) { setGoto(true) } else { alert("Input Data tidak Valid! Mohon periksa kembali!") }
   }
   useEffect(() => {
@@ -51,15 +52,15 @@ const Register = (props) => {
     retypePassword !== password ? setWarningRetypePassword("Kok beda ya?")
       : setWarningRetypePassword("");
 
-    if (nama.length === 0) setWarningNama("Harus diisi ya!");
-    else if (nama.length > 15) setWarningNama("Kepanjangan, Broh!");
-    else (setWarningNama(""))
+    if (name.length === 0) setWarningName("Harus diisi ya!");
+    else if (name.length > 15) setWarningName("Kepanjangan, Broh!");
+    else (setWarningName(""))
 
   }, [
     email,
     password,
     retypePassword,
-    nama,
+    name,
   ])
   return (
     <div className="main-wrapper">
@@ -74,9 +75,9 @@ const Register = (props) => {
               <h6>atau <Link to="/login">sign in</Link></h6>
               <Form.Row>
                 <Form.Group controlId="formGridName">
-                  <Form.Label>Nama</Form.Label>
-                  <Form.Control onChange={(e) => setNama(e.target.value)} value={nama} />
-                  <div style={{ color: 'red' }}>{warningNama}</div>
+                  <Form.Label>Nama Lengkap</Form.Label>
+                  <Form.Control onChange={(e) => setName(e.target.value)} value={name} />
+                  <div style={{ color: 'red' }}>{warningName}</div>
                 </Form.Group>
               </Form.Row>
 

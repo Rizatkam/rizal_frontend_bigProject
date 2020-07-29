@@ -1,4 +1,4 @@
-import * as actionsTypes from "./actionTypes";
+import * as actionsTypes from "./actionsTypes";
 import axios from "axios";
 import { ENDPOINT } from "../../utils/globals";
 

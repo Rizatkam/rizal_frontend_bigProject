@@ -4,6 +4,7 @@ import { Card,Button,FormControl,Form } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { withRouter } from 'react-router-dom';
 import numeral from 'numeral';
+import { ENDPOINT } from "../../utils/globals";
 
 const Book = ({ book, doUpdate, doDelete }) => {
     const [edit, setEdit] = useState(false);
@@ -11,18 +12,18 @@ const Book = ({ book, doUpdate, doDelete }) => {
     const bookStatus = book.bookStatus === "FOR_SELL" ? "info" : "warning";
 
     useEffect(() => {
-        setData({...book, bookCategory: {...book.bookCategory},
+        setData({
           id: book.id,
-          image: book.image,
+          kategori_id:book.kategori_id,
+          image_url: book.image_url,
           title: book.title,
-          synopsis: book.synopsis,
-          price: book.price,
+          description: book.description,
+          harga: book.harga,
           bookStatus: book.bookStatus,
-          authorName: book.authorName,
-          publicationDate: new Date()
+          author: book.author
         });
       }, []);
-      console.log(book.image,"Book.Image")
+      // console.log(book.image_url,"Book.Image_url")
 
       const handleUpdate = () => {
         doUpdate(data);
@@ -41,7 +42,7 @@ const Book = ({ book, doUpdate, doDelete }) => {
           <Card>
             <Card.Img
               variant="top"
-              src={book.image}
+              src={ENDPOINT}{book.image_url}
             />
             <Card.Body>
               <LinkContainer to={`/book/${book.id}`} style={{ cursor: 'pointer' }}>
@@ -65,42 +66,42 @@ const Book = ({ book, doUpdate, doDelete }) => {
                 {book.bookStatus}
               </Button>
             )}
-            {/*price*/}
+            {/*harga*/}
             {edit ? (
                   <FormControl
                     className="mt-2"
                     type="number"
                     as="input"
-                    value={data.price}
-                    onChange={(e) => handleForm(e, "price")}
+                    value={data.harga}
+                    onChange={(e) => handleForm(e, "harga")}
                   />
             ):(
             <h4 className="font-weight-bold" style={{ color: "#8052ff" }}>
-            {`Rp ${numeral(book.price).format("0,0")}`}
+            {`Rp ${numeral(book.harga).format("0,0")}`}
           </h4>)}
        {/*author*/}
         {edit ? (
             <FormControl
                 className="mt-2"
                 as="input"
-                value={data.authorName}
-                onChange={(e) => handleForm(e, "authorName")}
+                value={data.author}
+                onChange={(e) => handleForm(e, "author")}
               />
         ):(
-            <h6 className="text-dark">Author: {book.authorName}</h6>
+            <h6 className="text-dark">Author: {book.author}</h6>
         )}
-        {/*synopsis*/}
+        {/*description*/}
         <Card.Text className="text-secondary text-justify">
         {edit ? (
             <FormControl
             className="mt-2"
             as="textarea"
             aria-label="With textarea"
-            value={data.synopsis}
+            value={data.description}
             style={{ height: "300px" }}
-            onChange={(e) => handleForm(e, "synopsis")}/>
+            onChange={(e) => handleForm(e, "description")}/>
         ) : (
-            book.synopsis.substr(0, 150)
+            book.description.substr(0, 150)
           )}
       </Card.Text>
       {edit ? (
@@ -114,10 +115,10 @@ const Book = ({ book, doUpdate, doDelete }) => {
               setEdit(false);
               setData({
                 title: book.title,
-                synopsis: book.synopsis,
-                price: book.price,
+                description: book.description,
+                harga: book.harga,
                 bookStatus: book.bookStatus,
-                authorName: book.authorName,
+                author: book.author,
               });
             }}
           >

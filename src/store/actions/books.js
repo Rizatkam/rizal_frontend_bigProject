@@ -3,8 +3,11 @@ import axios from 'axios'
 import { ENDPOINT,access_token } from "../../utils/globals";
 
 export const addBook = (data) => {
-    const request = axios.post(`${ENDPOINT}buku`, data);
-  
+    const request = axios.post(`${ENDPOINT}buku`, data, {
+        headers: {
+            authorization: `${access_token}`
+        }
+    });
     return (dispatch) => {
       request.then((response) => {
         dispatch({
@@ -15,11 +18,7 @@ export const addBook = (data) => {
     };
   };
 export const getListBook = () => {
-    const request = axios.get(`${ENDPOINT}buku`, {
-        headers: {
-            authorization: `${access_token}`
-        }
-    });
+    const request = axios.get(`${ENDPOINT}buku`);
     return (dispatch) => 
         request.then((response) => {
             console.log(response)
@@ -30,11 +29,7 @@ export const getListBook = () => {
         });
 };
 export const getBookById = (id) => {
-    const request = axios.get(`${ENDPOINT}buku/${id}`, {
-        headers: {
-            authorization: `${access_token}`
-        }
-    });
+    const request = axios.get(`${ENDPOINT}buku/${id}`);
 
     return (dispatch) => 
         request.then((response) => {

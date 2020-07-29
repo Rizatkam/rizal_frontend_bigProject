@@ -11,8 +11,8 @@ import { addToCart,getListBook } from "../store/actions";
 
 const mapStateToProps = (state) => {
   return {
-    books: state.reducers.books,
-    addedItems: state.reducers.addedItems,
+    books: state.books,
+    // addedItems: state.addedItems,
   };
 };
 
@@ -26,9 +26,6 @@ const mapDispatchToProps = (dispatch) => {
 
 const Home=(props)=>{
   const { books, items } = props;
-  // window.localStorage.setItem("username", "yogal"); // "Key", "Value"
-  // window.localStorage.getItem("username");
-  // //window.localStorage.removeItem("tes");
 
   useEffect(() => {
     props.getBook();
