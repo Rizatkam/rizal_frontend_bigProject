@@ -5,8 +5,26 @@ const initialState = {
   total: 0,
 };
 
-const cart = (state = initialState, action) => {
+const cart = (state = initialState,action) => {
   switch (action.type) {
+    case actionTypes.ADD_TO_CART:
+      let existed_item = state.addedItems.find((item) => action.id === item.id);
+      if (existed_item) {
+        state.addedItems.quantity += 1;
+        return {
+          ...state,
+          total: state.total + state.addedItems.price,
+        };
+      } else {
+        state.addedItems.quantity = 1;
+        let newTotal = state.total + state.addedItems.price;
+
+        return {
+          ...state,
+          addedItems: [...state.addedItems, state.addedItems],
+          total: newTotal,
+        }
+      }
     case actionTypes.GET_LIST_CART:
       return {
         ...state,

@@ -2,7 +2,7 @@ import * as actionsTypes from './actionsTypes'
 import axios from 'axios'
 import { ENDPOINT,access_token } from "../../utils/globals";
 
-const addBook = (data) => {
+export const addBook = (data) => {
     const request = axios.post(`${ENDPOINT}buku`, data);
   
     return (dispatch) => {
@@ -14,7 +14,7 @@ const addBook = (data) => {
       });
     };
   };
-const getListBook = () => {
+export const getListBook = () => {
     const request = axios.get(`${ENDPOINT}buku`, {
         headers: {
             authorization: `${access_token}`
@@ -29,7 +29,7 @@ const getListBook = () => {
             });
         });
 };
-const getBookById = (id) => {
+export const getBookById = (id) => {
     const request = axios.get(`${ENDPOINT}buku/${id}`, {
         headers: {
             authorization: `${access_token}`
@@ -46,7 +46,7 @@ const getBookById = (id) => {
         });
 };
 
-const updateBook = (data,id) => {
+export const updateBook = (data,id) => {
     const request = axios.put(`${ENDPOINT}buku/${id}`, data, {
         headers: {
             authorization: `${access_token}`
@@ -64,7 +64,7 @@ const updateBook = (data,id) => {
         });
 };
 
-const deleteBook = (id) => {
+export const deleteBook = (id) => {
     const request = axios.delete(`${ENDPOINT}buku/${id}`, {
         headers: {
             authorization: `${access_token}`
@@ -81,10 +81,3 @@ const deleteBook = (id) => {
             return dispatch(getListBook());
         });
 };
-export default ({
-    getListBook,
-    getBookById,
-    addBook,
-    updateBook,
-    deleteBook
-})

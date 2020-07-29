@@ -2,8 +2,7 @@ import React,{useEffect} from 'react';
 import Header from '../components/user/header';
 import { Container,Row,Col,Carousel } from 'react-bootstrap';
 import { connect } from "react-redux";
-import { getListBook } from "../store/actions/books";
-import { addToCart } from "../store/actions/cart";
+import { addToCart,getListBook } from "../store/actions";
 
 // import Layout from "../templates/layout";
 // import CardBuku from "../components/card/cardBuku";
@@ -12,25 +11,24 @@ import { addToCart } from "../store/actions/cart";
 
 const mapStateToProps = (state) => {
   return {
-    books: state.bookReducer.books,
-    items: state.cartReducer.items,
+    books: state.reducers.books,
+    addedItems: state.reducers.addedItems,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getBook: () => dispatch(getListBook()),
-    addToCart: (id) => {
-      dispatch(addToCart(id));
+    addToCart: (id) => {dispatch(addToCart(id));
     },
   };
 };
 
 const Home=(props)=>{
   const { books, items } = props;
-  window.localStorage.setItem("username", "yogal"); // "Key", "Value"
-  window.localStorage.getItem("username");
-  //window.localStorage.removeItem("tes");
+  // window.localStorage.setItem("username", "yogal"); // "Key", "Value"
+  // window.localStorage.getItem("username");
+  // //window.localStorage.removeItem("tes");
 
   useEffect(() => {
     props.getBook();
