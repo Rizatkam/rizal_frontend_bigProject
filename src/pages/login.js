@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { loginUser } from "../store/actions";
 import { Redirect } from "react-router-dom";
 
 const mapStateToProps = (state) => {
-  console.log(state,"Ini state dari page mapStateToProps")
+  console.log(state,"Ini state dari page Login mapStateToProps")
   return {
     user: state.users
   };
@@ -29,15 +29,13 @@ const Login = (props) => {
     e.preventDefault();
     props.loginUser(email, password);
     if (
-      email === props.user.user.email &&
-      password === props.user.user.password &&
+      props.user.isLoggedIn &&
       props.user.user.role_id === 1
     ) {
       alert("Anda telah Login sebagai Admin.");
       setGotoAdmin(true);
     } else if (
-      email === props.user.user.email &&
-      password === props.user.user.password &&
+      props.user.isLoggedIn &&
       props.user.user.role_id === 2
     ) {
       alert(`Selamat Datang ${props.user.user.name}!`);
@@ -46,6 +44,23 @@ const Login = (props) => {
       alert("Anda gagal login. Email dan/atau Password salah,");
     }
   };
+  // useEffect(()=>{
+  //   if (
+  //     props.user.isLoggedIn &&
+  //     props.user.user.role_id === 1
+  //   ) {
+  //     alert("Anda telah Login sebagai Admin.");
+  //     setGotoAdmin(true);
+  //   } else if (
+  //     props.user.isLoggedIn &&
+  //     props.user.user.role_id === 2
+  //   ) {
+  //     alert(`Selamat Datang ${props.user.user.name}!`);
+  //     setGotoUser(true);
+  //   } else {
+  //     alert("Anda gagal login. Email dan/atau Password salah,");
+  //   }},[]
+  // )
 
   return (
     <div className="main-wrapper">

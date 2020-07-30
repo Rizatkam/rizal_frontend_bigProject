@@ -4,6 +4,13 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { registerUser } from "../store/actions";
 
+const mapStateToProps = (state) => {
+  console.log(state,"Ini state dari page Register mapStateToProps")
+  return {
+    user: state.users
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     registerUser: (name, email, password) =>
@@ -150,4 +157,4 @@ const Register = (props) => {
   );
 };
 
-export default connect(null, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
