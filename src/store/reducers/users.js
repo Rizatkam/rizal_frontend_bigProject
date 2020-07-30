@@ -1,25 +1,24 @@
 import * as actionTypes from "../actions/actionsTypes";
 
 const initial = {
-    user: {},
-    access_token: {},
+    users: {},
+    token: {},
     isLoggedIn: false,
   };  
 const users = (state = initial, action) => {
-    console.log(action.payload, "action")
+    console.log(action.payload, "ini payload action.")
     switch(action.type){
         case actionTypes.ADD_USER:
     return {
         ...state,
-        access_token: action.payload.data.access_token,
         user: action.payload.data.user,
-        isLoggedIn: true
+        isLoggedIn: false
       };
         case actionTypes.LOGIN_USER:
     return {
         ...state,
         user: action.payload.data.user,
-        access_token: action.payload.data.access_token,
+        token: action.payload.data.token,
         isLoggedIn: true
             };
     default: 

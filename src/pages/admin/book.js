@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {getListBook, updateBook, deleteBook} from '../../store/actions'
 
 const mapStateToProps=(state)=>{
-    return{books: state.store.books,}
+    return{books: state.books,}
   }
   const mapDispatchToProps=(dispatch)=>{
     return{getBook:()=>dispatch(getListBook()),

@@ -10,6 +10,13 @@ import numeral from 'numeral';
 import { LinkContainer } from 'react-router-bootstrap';
 import { ENDPOINT } from "../../utils/globals";
 
+const mapStateToProps=(state)=>{
+  return{books: state.book}
+}
+const mapDispatchToProps=(dispatch)=>{
+  return{getBookById:(id)=>dispatch(getBookById(id))}
+}
+
 const BookDetailPage = (props) => {
     const {id} = props.match.params;
     const {book}=props;
@@ -67,11 +74,5 @@ const BookDetailPage = (props) => {
     </div>
   )
 };
-const mapStateToProps=(state)=>{
-    return{books: state.store.book}
-  }
-  const mapDispatchToProps=(dispatch)=>{
-    return{getBookById:(id)=>dispatch(getBookById(id))}
-  }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookDetailPage);
