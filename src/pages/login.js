@@ -25,6 +25,7 @@ const Login = (props) => {
   const [gotoUser, setGotoUser] = useState(false);
 
   const onSubmitSignin = (e) => {
+    console.log(email,password,"ini email dan password dari page Login.")
     e.preventDefault();
     props.loginUser(email, password);
     if (
