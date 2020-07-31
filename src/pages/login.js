@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { loginUser } from "../store/actions";
@@ -23,11 +23,11 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
   const [gotoAdmin, setGotoAdmin] = useState(false);
   const [gotoUser, setGotoUser] = useState(false);
+  props.loginUser(email, password);
+  console.log(email,password,"ini email dan password dari page Login.")
 
   const onSubmitSignin = (e) => {
-    console.log(email,password,"ini email dan password dari page Login.")
     e.preventDefault();
-    props.loginUser(email, password);
     if (
       props.user.isLoggedIn &&
       props.user.user.role_id === 1
@@ -44,23 +44,6 @@ const Login = (props) => {
       alert("Anda gagal login. Email dan/atau Password salah,");
     }
   };
-  // useEffect(()=>{
-  //   if (
-  //     props.user.isLoggedIn &&
-  //     props.user.user.role_id === 1
-  //   ) {
-  //     alert("Anda telah Login sebagai Admin.");
-  //     setGotoAdmin(true);
-  //   } else if (
-  //     props.user.isLoggedIn &&
-  //     props.user.user.role_id === 2
-  //   ) {
-  //     alert(`Selamat Datang ${props.user.user.name}!`);
-  //     setGotoUser(true);
-  //   } else {
-  //     alert("Anda gagal login. Email dan/atau Password salah,");
-  //   }},[]
-  // )
 
   return (
     <div className="main-wrapper">
