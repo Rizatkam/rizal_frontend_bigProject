@@ -1,35 +1,33 @@
-// Belum Disesuaikan (Modul Halaman 41)
-import React,{useEffect} from 'react';
+import React from 'react';
+import '../../App.css';
 import {
   Card,
   Button
 } from 'react-bootstrap';
-import {connect} from 'react-redux';
-import {getBookById} from '../../store/actions'
 import numeral from 'numeral';
 import { LinkContainer } from 'react-router-bootstrap';
 import { ENDPOINT } from "../../utils/globals";
 
-const mapStateToProps=(state)=>{
-  return{books: state.book}
-}
-const mapDispatchToProps=(dispatch)=>{
-  return{getBookById:(id)=>dispatch(getBookById(id))}
-}
-
 const BookDetailPage = (props) => {
-    const {id} = props.match.params;
-    const {book}=props;
-    const bookStatus = book.bookStatus === 'FOR_SELL' ? 'info' : 'warning';
+  const book = {
+    id: 5,
+    title: 'ini judul',
+    isbn: 'null',
+    authorName: 'ini author',
+    synopsis: 'ini sinopsis',
+    price: 84000.0,
+    status: 'OUT_OF_STOCK',
+  }
 
-    useEffect(()=>{props.getBookById(id);},[]);
+  const status = book.status === 'FOR_SELL' ? 'info' : 'warning';
+
   return (
     <div className="App">
       <div className="container">
         <Card className="pl-o p-5">
           <div className="row">
             <div className="col-md-3">
-              <LinkContainer to="/book" style={{ cursor: 'pointer' }}>
+              <LinkContainer to="/" style={{ cursor: 'pointer' }}>
                 <h2>&larr;</h2>
               </LinkContainer>
             </div>
@@ -45,28 +43,28 @@ const BookDetailPage = (props) => {
                 className="img-fluid"
                 variant="top"
                 alt=""
-                src={ENDPOINT}{book.image_url}
+                src={`${ENDPOINT}/${book.image_url}`}
                 width={450}
               />
             </div>
             <div className="col-md-4">
               <Button
-                variant={bookStatus}
+                variant={status}
                 className="btn-sm font-weight-bold m-2"
               >
-                {book.bookStatus}
+                {book.status}
               </Button>
               <h4
                 className="my-2 font-weight-bold"
                 style={{ color: "#8052ff" }}
               >
-                {`Rp ${numeral(book.harga).format("0,0")}`}
+                {`Rp ${numeral(book.price).format("0,0")}`}
               </h4>
               <h5 className="my-3 text-dark text-left">
-                Author: {book.author}
+                Author: {book.authorName}
               </h5>
-              <h6 className="text-left">Book description :</h6>
-              <p className="text-black-50 text-justify">{book.description}</p>
+              <h6 className="text-left">Book Synopsis :</h6>
+              <p className="text-black-50 text-justify">{book.synopsis}</p>
             </div>
           </div>
         </Card>
@@ -75,4 +73,4 @@ const BookDetailPage = (props) => {
   )
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BookDetailPage);
+export default BookDetailPage;

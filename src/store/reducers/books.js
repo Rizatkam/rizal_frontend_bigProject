@@ -1,12 +1,18 @@
-import * as actionTypes from '../actions/actionsTypes';
+import * as actionTypes from "../actions/actionsTypes";
 
-const initialState = {
+const initial = {
   books: [],
-  book: {}
-}
+  book: {},
+};
 
-const books = (state = initialState, action) => {
+const books = (state = initial, action) => {
+  console.log(action.payload, "ini payload action.");
   switch (action.type) {
+    case actionTypes.ADD_BOOK:
+      return {
+        ...state,
+        book: action.payload.data.book,
+      };
     case actionTypes.GET_BOOK:
       return {
         ...state,
@@ -20,14 +26,14 @@ const books = (state = initialState, action) => {
     case actionTypes.UPDATE_BOOK:
       return {
         ...state,
-      }
+      };
     case actionTypes.DELETE_BOOK:
       return {
         ...state,
       };
     default:
-      return initialState;
+      return state;
   }
-}
+};
 
 export default books;

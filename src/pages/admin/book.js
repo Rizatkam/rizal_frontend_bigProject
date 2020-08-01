@@ -4,17 +4,22 @@ import '../../App.css';
 import Book from '../../components/admin/book';
 import {connect} from 'react-redux';
 import {getListBook, updateBook, deleteBook} from '../../store/actions'
+import book from '../../components/admin/book';
 
-const mapStateToProps=(state)=>{
-    return{books: state.books,}
-  }
   const mapDispatchToProps=(dispatch)=>{
     return{getBook:()=>dispatch(getListBook()),
     updateBook:(data)=>dispatch(updateBook(data)),
   deleteBook:(id)=>dispatch(deleteBook(id))}
   }
+  const mapStateToProps = (state) => {
+    console.log(state,"Ini state dari page Book Admin mapStateToProps")
+    return {
+      books: state.books.books
+    };
+  };
 
 const BookPage = (props) => {
+  console.log(props,"Ini props dari page Book Admin")
   useEffect(()=>{
    props.getBook();
  },[]);
@@ -32,10 +37,11 @@ const BookPage = (props) => {
         </div>
         <div className="container">
           <div className="row">
-            {props.books && props.books.map((val, key) => 
+            {props.books && props.books.map((val, key) =>
               <Book key={key} book={val}
               doUpdate={handleUpdate}
-              doDelete={handleDelete}/> )}
+              doDelete={handleDelete}/> 
+              )}
           </div>
         </div>
       </header>

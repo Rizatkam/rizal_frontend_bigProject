@@ -21,10 +21,9 @@ export const getListBook = () => {
     const request = axios.get(`${ENDPOINT}buku`);
     return (dispatch) => 
         request.then((response) => {
-            console.log(response)
             return dispatch({
                 type: actionsTypes.GET_BOOK,
-                payload: response.data
+                payload: response.data.data.rows
             });
         });
 };

@@ -2,7 +2,8 @@ import React from 'react';
 import './App.css';
 import {Switch, Route} from 'react-router-dom';
 
-// import AdminBook from './pages/admin/book';
+// import AdminAddBook from './pages/admin/addBook';
+import AdminBook from './pages/admin/book';
 // import AdminBookDetail from './pages/admin/bookDetail';
 // import UserBook from './pages/user/book';
 // import UserBookDetail from './pages/user/bookDetail';
@@ -22,8 +23,9 @@ function App() {
       {/* <Route path='/user/book/:id' component={UserBookDetail}/>
       <Route path='/user/book' component={UserBook}/>
       <Route path='/user/cart' component={UserCart}/>
-      <Route path='/admin/book/:id' component={AdminBookDetail}/>
-      <Route path='/admin/book' component={AdminBook}/> */}
+      <Route path='/admin/addBook' component={AdminAddBook}/>
+      <Route path='/admin/book/:id' component={AdminBookDetail}/> */}
+      <Route path='/admin/book' component={AdminBook}/>
     </Switch>
     </div>
   );

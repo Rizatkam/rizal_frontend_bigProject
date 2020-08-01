@@ -42,7 +42,7 @@ const Login = (props) => {
       setGotoUser(true);
     } else {
       alert("Anda gagal login. Email dan/atau Password salah,");
-    }
+    };
   };
 
   return (
