@@ -23,12 +23,14 @@ const BookDetailPage = (props) => {
   console.log(props, "Ini props dari page BookDetailPage");
   const [edit, setEdit] = useState(false);
   const [data, setData] = useState({});
+  const {book} =props;
+  
   const status = book.status_id === 1 ? "info" : "warning";
-  const id = props.match.params.id;
-  useEffect(() => {
+  
+  useEffect((id) => {
     props.getBookById(id);
     setData({
-      id: book.id,
+      id: props.match.params.id,
       kategori_id: book.kategori.id,
       status_id: book.status.id,
       title: book.title,
@@ -46,6 +48,9 @@ const BookDetailPage = (props) => {
   const handleDelete = (id) => {
     props.deleteBook(id);
   };
+  const handleForm = (e, formName) => {
+    setData({ ...data, [formName]: e.target.value });
+  };
 
   return (
     <div className="App">
@@ -54,21 +59,28 @@ const BookDetailPage = (props) => {
           <div className="row">
             <div className="col-md-3"></div>
             <div className="col-md-6">
-              <h2 style={{ color: "#8052ff" }}>{book.title}</h2>
+              {edit ? 
+              (<Form.Control value={data.title} onChange={(e) => handleForm(e, "title")}/>
+                ):(
+              <h2 style={{ color: "#8052ff" }}>{book.title}</h2>)}
             </div>
           </div>
           <div className="row">
             <div className="col-md-8">
-              <img
+              {edit ?(<Form.File 
+              value={data.image_url}
+              onChange={(e) => handleForm(e, "image_url")} 
+              label="Insert Here!"/>):(<img
                 className="img-fluid"
                 variant="top"
                 alt=""
                 src={`${ENDPOINT}${book.image_url}`}
                 width={450}
-              />
+              />)}
             </div>
             <div className="col-md-4">
-              <Button variant={status} className="btn-sm font-weight-bold m-2">
+              <Button variant={status}
+              className="btn-sm font-weight-bold m-2">
                 {book.status.name}
               </Button>
               <h4
@@ -80,6 +92,12 @@ const BookDetailPage = (props) => {
               <h5 className="my-3 text-dark text-left">
                 Author: {book.author}
               </h5>
+              <h6 className="my-3 text-dark text-left">
+                ISBN Number: {book.no_isbn}
+              </h6>
+              <h6>
+                Weight:{book.berat}
+              </h6>
               <h6 className="text-left">Description :</h6>
               <p className="text-black-50 text-justify">{book.description}</p>
             </div>

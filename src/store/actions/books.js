@@ -14,7 +14,7 @@ export const addBook = (data) => {
         console.log(response,"Add Book Response");
         dispatch({
           type: actionsTypes.ADD_BOOK,
-          payload: response.data,
+          payload: response.data,data
         });
       });
     };
@@ -37,7 +37,7 @@ export const getBookById = (id) => {
             console.log(response,"Get Book by ID Response");
             return dispatch({
                 type: actionsTypes.GET_BOOK_BY_ID,
-                payload: response.data
+                payload: response.data.data
             });
         });
 };
@@ -54,7 +54,7 @@ export const updateBook = (data,id) => {
             console.log(response,"Update Book Response");
             dispatch({
                 type: actionsTypes.UPDATE_BOOK,
-                payload: response.data
+                payload: response.data.data
             });
             return dispatch(getListBook());
         });
@@ -72,7 +72,7 @@ export const deleteBook = (id) => {
             console.log(response,"Delete Book by ID Response");
             dispatch({
                 type: actionsTypes.GET_BOOK_BY_ID,
-                payload: response.data
+                payload: response.data.data
             })
             return dispatch(getListBook());
         });
