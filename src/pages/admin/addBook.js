@@ -7,7 +7,7 @@ import { addBook } from "../../store/actions";
 const mapStateToProps = (state) => {
   console.log(state, "Ini state dari page addBook mapStateToProps");
   return {
-    book: state.books.book,
+    buku: state.books.buku,
   };
 };
 
@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const AddBook = (props) => {
-  console.log(props, "ini props dari Register.");
+  console.log(props, "ini props dari AddBook.");
   const [goto, setGoto] = useState(false);
   const [data, setData] = useState({});
   const { book } = props;
@@ -27,7 +27,6 @@ const AddBook = (props) => {
     e.preventDefault();
     props.addBook(data);
     setData({
-      id: book.id,
       kategori_id: book.kategori.id,
       status_id: book.status.id,
       title: book.title,
@@ -39,15 +38,28 @@ const AddBook = (props) => {
       description: book.description,
     });
   };
-  useEffect(()=>{
-
-  },[])
+  // useEffect(() => {
+  //   if (book) {
+  //     console.log(book, "book dari Add Book");
+  //     setData({
+  //       kategori_id: book.kategori.id,
+  //       status_id: book.status.id,
+  //       title: book.title,
+  //       harga: book.harga,
+  //       author: book.author,
+  //       image_url: book.image_url,
+  //       no_isbn: book.no_isbn,
+  //       berat: book.berat,
+  //       description: book.description,
+  //     });
+  //   }
+  // }, [book]);
   const handleForm = (e, formName) => {
     setData({ ...data, [formName]: e.target.value });
   };
   return (
     <div className="main-wrapper">
-      {goto ? <Redirect to="/login" /> : ""}
+      {goto ? <Redirect to="/admin/book" /> : ""}
       <div>
         <Form onSubmit={(e) => onSubmitAddBook(e)}>
           <Form.Row>
@@ -68,9 +80,9 @@ const AddBook = (props) => {
                 value={data.status_id}
                 onChange={(e) => handleForm(e, "status_id")}
               >
-              <option>--Choose--</option>
-              <option value="1">FOR SELL</option>
-              <option value="2">OUT OF STOCK</option>
+                <option>--Choose--</option>
+                <option value="1">FOR SELL</option>
+                <option value="2">OUT OF STOCK</option>
               </Form.Control>
             </Form.Group>
           </Form.Row>
@@ -83,14 +95,14 @@ const AddBook = (props) => {
                 value={data.kategori_id}
                 onChange={(e) => handleForm(e, "kategori_id")}
               >
-              <option>--Choose--</option>
-              <option value="1">Agama</option>
-              <option value="2">Anak-Anak</option>
-              <option value="3">Bisnis dan Ekonomi</option>
-              <option value="4">Buku Medis</option>
-              <option value="5">Pertanian</option>
-              <option value="6">Hukum</option>
-              <option value="7">Komputer dan Teknologi</option>
+                <option>--Choose--</option>
+                <option value="1">Agama</option>
+                <option value="2">Anak-Anak</option>
+                <option value="3">Bisnis dan Ekonomi</option>
+                <option value="4">Buku Medis</option>
+                <option value="5">Pertanian</option>
+                <option value="6">Hukum</option>
+                <option value="7">Komputer dan Teknologi</option>
               </Form.Control>
             </Form.Group>
           </Form.Row>
@@ -138,7 +150,7 @@ const AddBook = (props) => {
           </Form.Row>
 
           <Form.Row>
-            <Form.Group controlId="formGridPrice">
+            <Form.Group controlId="formGridCurrency">
               <Form.Label>Price</Form.Label>
               <Form.Control
                 value={data.harga}

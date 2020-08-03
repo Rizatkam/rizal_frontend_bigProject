@@ -2,7 +2,8 @@ import * as actionTypes from "../actions/actionsTypes";
 
 const initial = {
   books: [],
-  book: {},
+  book: null,
+  buku:{},
 };
 
 const books = (state = initial, action) => {

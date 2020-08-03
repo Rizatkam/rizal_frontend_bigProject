@@ -3,7 +3,7 @@ import './App.css';
 import {Switch, Route} from 'react-router-dom';
 
 import AdminAddBook from './pages/admin/addBook';
-import AdminBook from './pages/admin/book2';
+import AdminBook from './pages/admin/book';
 import AdminBookDetail from './pages/admin/bookDetail';
 // import UserBook from './pages/user/book';
 // import UserBookDetail from './pages/user/bookDetail';

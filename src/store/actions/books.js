@@ -71,7 +71,7 @@ export const deleteBook = (id) => {
         request.then((response) => {
             console.log(response,"Delete Book by ID Response");
             dispatch({
-                type: actionsTypes.GET_BOOK_BY_ID,
+                type: actionsTypes.DELETE_BOOK,
                 payload: response.data.data
             })
             return dispatch(getListBook());
