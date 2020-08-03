@@ -1,3 +1,4 @@
+//Harus Disesuaikan dulu payload nya
 import * as actionsTypes from './actionsTypes'
 import axios from 'axios'
 import { ENDPOINT,access_token } from "../../utils/globals";
@@ -10,6 +11,7 @@ export const addBook = (data) => {
     });
     return (dispatch) => {
       request.then((response) => {
+        console.log(response,"Add Book Response");
         dispatch({
           type: actionsTypes.ADD_BOOK,
           payload: response.data,
@@ -32,7 +34,7 @@ export const getBookById = (id) => {
 
     return (dispatch) => 
         request.then((response) => {
-            console.log(response);
+            console.log(response,"Get Book by ID Response");
             return dispatch({
                 type: actionsTypes.GET_BOOK_BY_ID,
                 payload: response.data
@@ -49,7 +51,7 @@ export const updateBook = (data,id) => {
 
     return (dispatch) => 
         request.then((response) => {
-            console.log(response);
+            console.log(response,"Update Book Response");
             dispatch({
                 type: actionsTypes.UPDATE_BOOK,
                 payload: response.data
@@ -67,7 +69,7 @@ export const deleteBook = (id) => {
 
     return (dispatch) => 
         request.then((response) => {
-            console.log(response)
+            console.log(response,"Delete Book by ID Response");
             dispatch({
                 type: actionsTypes.GET_BOOK_BY_ID,
                 payload: response.data

@@ -10,7 +10,6 @@ export const registerUser = (name,email, password) => {
         'email': email,
         'password': password,
     })
-    console.log(request,"ini Request Action Register")
     return (dispatch)=>{
         request.then((response)=>{
             console.log(response,"ini response Register");
@@ -26,7 +25,6 @@ export const loginUser = (email, password) => {
     const request=axios.post(`${ENDPOINT}users/login`,{
         email,password
     })
-    console.log(request,"ini Request Action Login")
     return (dispatch)=>{
         request.then((response)=>{
             console.log(response,"ini response Login");

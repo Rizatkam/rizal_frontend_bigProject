@@ -1,4 +1,4 @@
-// Belum Diseuaikan
+// Belum DIsesuaikan!
 import React, { useState, useEffect } from "react";
 import { Card, Button, FormControl, Form } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
@@ -12,17 +12,19 @@ const Book = ({ book, doUpdate, doDelete }) => {
   const status = book.status_id === 1 ? "info" : "warning";
 
   useEffect(() => {
-      setData({
-        id: book.id,
-        kategori:book.kategori,
-        status: book.status,
-        image_url: book.image_url,
-        title: book.title,
-        description: book.description,
-        harga: book.harga,
-        author: book.author
-      });
-    }, []);
+    setData({
+      id: book.id,
+      kategori_id: book.kategori.id,
+      status_id: book.status.id,
+      title: book.title,
+      harga: book.harga,
+      author: book.author,
+      image_url: book.image_url,
+      no_isbn: book.no_isbn,
+      berat: book.berat,
+      description: book.description,
+    });
+  }, []);
   console.log(book, "Komponen Book.");
 
   const handleUpdate = () => {
@@ -41,19 +43,22 @@ const Book = ({ book, doUpdate, doDelete }) => {
       <Card>
         <Card.Img variant="top" src={`${ENDPOINT}${book.image_url}`} />
         <Card.Body>
-          <LinkContainer to={`/book/${book.id}`} style={{ cursor: "pointer" }}>
+          <LinkContainer
+            to={`/admin/book/${book.id}`}
+            style={{ cursor: "pointer" }}
+          >
             <Card.Title className="text-primary">{book.title}</Card.Title>
           </LinkContainer>
           {/*status*/}
           {edit ? (
             <Form.Control
               as="select"
-              value={data.status}
-              onChange={(e) => handleForm(e, "status")}
+              value={data.status_id}
+              onChange={(e) => handleForm(e, "status_id")}
             >
               <option>--Choose--</option>
-              <option value="FOR_SELL">FOR_SELL</option>
-              <option value="OUT_OF_STOCK">OUT_OF_STOCK</option>
+              <option value="1">FOR SELL</option>
+              <option value="2">OUT OF STOCK</option>
             </Form.Control>
           ) : (
             <Button variant={status} className="btn-sm font-weight-bold m-2">

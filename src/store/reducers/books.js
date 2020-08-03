@@ -6,12 +6,12 @@ const initial = {
 };
 
 const books = (state = initial, action) => {
-  console.log(action.payload, "ini payload action.");
+  console.log(action.payload, "ini payload action dari Reducer Books.");
   switch (action.type) {
     case actionTypes.ADD_BOOK:
       return {
         ...state,
-        book: action.payload.data.book,
+        book: action.payload,
       };
     case actionTypes.GET_BOOK:
       return {
