@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import {Switch, Route} from 'react-router-dom';
 
-// import AdminAddBook from './pages/admin/addBook';
+import AdminAddBook from './pages/admin/addBook';
 import AdminBook from './pages/admin/book2';
 import AdminBookDetail from './pages/admin/bookDetail';
 // import UserBook from './pages/user/book';
@@ -23,7 +23,7 @@ function App() {
       {/* <Route path='/user/book/:id' component={UserBookDetail}/>
       <Route path='/user/book' component={UserBook}/>
       <Route path='/user/cart' component={UserCart}/> */}
-      {/* <Route path='/admin/addBook' component={AdminAddBook}/> */}
+      <Route path='/admin/addBook' component={AdminAddBook}/>
       <Route path='/admin/book/:id' component={AdminBookDetail}/>
       <Route path='/admin/book' component={AdminBook}/>
     </Switch>

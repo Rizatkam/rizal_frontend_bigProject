@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, Col } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import { addBook } from "../store/actions";
+import { addBook } from "../../store/actions";
 
 const mapStateToProps = (state) => {
   console.log(state, "Ini state dari page addBook mapStateToProps");
