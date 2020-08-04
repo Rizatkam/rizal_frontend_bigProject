@@ -2,8 +2,9 @@ import * as actionTypes from "../actions/actionsTypes";
 
 const initial = {
   books: [],
-  book: null,
-  buku:{},
+  book: {},
+  // book: null,
+  // buku:{},
 };
 
 const books = (state = initial, action) => {
@@ -27,10 +28,12 @@ const books = (state = initial, action) => {
     case actionTypes.UPDATE_BOOK:
       return {
         ...state,
+        book: action.payload,
       };
     case actionTypes.DELETE_BOOK:
       return {
         ...state,
+        book: action.payload,
       };
     default:
       return state;

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Col } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import axios from "axios";
+import { ENDPOINT } from "../../utils/globals";
 import { addBook } from "../../store/actions";
 
 const mapStateToProps = (state) => {
   console.log(state, "Ini state dari page addBook mapStateToProps");
   return {
-    buku: state.books.buku,
+    book: state.books.book,
   };
 };
 
@@ -19,44 +21,41 @@ const mapDispatchToProps = (dispatch) => {
 
 const AddBook = (props) => {
   console.log(props, "ini props dari AddBook.");
+  const [status_id, setStatus] = useState(0);
+  const [kategori_id, setKategori] = useState(0);
+  const [title, setTitle] = useState("");
+  const [harga, setHarga] = useState("");
+  const [author, setAuthor] = useState("");
+  const [image_url, setImage] = useState("");
+  const [no_isbn, setNoisbn] = useState("");
+  const [berat, setBerat] = useState(0);
+  const [description, setDesc] = useState("");
+  const [dataKategori, setDataKategori] = useState([]);
   const [goto, setGoto] = useState(false);
-  const [data, setData] = useState({});
-  const { book } = props;
 
   const onSubmitAddBook = (e) => {
     e.preventDefault();
+    const data = new FormData();
+    data.append("status_id", status_id);
+    data.append("kategori_id", kategori_id);
+    data.append("title", title);
+    data.append("harga", harga);
+    data.append("author", author);
+    data.append("image_url", image_url);
+    data.append("no_isbn", no_isbn);
+    data.append("berat", berat);
+    data.append("description", description);
+    if(data){setGoto(true)}else{setGoto(false)}
     props.addBook(data);
-    setData({
-      kategori_id: book.kategori.id,
-      status_id: book.status.id,
-      title: book.title,
-      harga: book.harga,
-      author: book.author,
-      image_url: book.image_url,
-      no_isbn: book.no_isbn,
-      berat: book.berat,
-      description: book.description,
-    });
   };
-  // useEffect(() => {
-  //   if (book) {
-  //     console.log(book, "book dari Add Book");
-  //     setData({
-  //       kategori_id: book.kategori.id,
-  //       status_id: book.status.id,
-  //       title: book.title,
-  //       harga: book.harga,
-  //       author: book.author,
-  //       image_url: book.image_url,
-  //       no_isbn: book.no_isbn,
-  //       berat: book.berat,
-  //       description: book.description,
-  //     });
-  //   }
-  // }, [book]);
-  const handleForm = (e, formName) => {
-    setData({ ...data, [formName]: e.target.value });
-  };
+  async function getCategory() {
+    const request = await axios.get(`${ENDPOINT}kategori`);
+    setDataKategori(request.data.data);
+  }
+  useEffect(() => {
+    getCategory();
+  }, []);
+
   return (
     <div className="main-wrapper">
       {goto ? <Redirect to="/admin/book" /> : ""}
@@ -66,8 +65,8 @@ const AddBook = (props) => {
             <Form.Group controlId="formGridTitle">
               <Form.Label>Title</Form.Label>
               <Form.Control
-                value={data.title}
-                onChange={(e) => handleForm(e, "title")}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </Form.Group>
           </Form.Row>
@@ -77,8 +76,8 @@ const AddBook = (props) => {
               <Form.Label>Status</Form.Label>
               <Form.Control
                 as="select"
-                value={data.status_id}
-                onChange={(e) => handleForm(e, "status_id")}
+                value={status_id}
+                onChange={(e) => setStatus(e.target.value)}
               >
                 <option>--Choose--</option>
                 <option value="1">FOR SELL</option>
@@ -92,17 +91,18 @@ const AddBook = (props) => {
               <Form.Label>Category</Form.Label>
               <Form.Control
                 as="select"
-                value={data.kategori_id}
-                onChange={(e) => handleForm(e, "kategori_id")}
+                onChange={(e) => setKategori(e.target.value)}
               >
                 <option>--Choose--</option>
-                <option value="1">Agama</option>
-                <option value="2">Anak-Anak</option>
-                <option value="3">Bisnis dan Ekonomi</option>
-                <option value="4">Buku Medis</option>
-                <option value="5">Pertanian</option>
-                <option value="6">Hukum</option>
-                <option value="7">Komputer dan Teknologi</option>
+                {dataKategori.map(function (item, index) {
+                  console.log(item, "ini item Kategori.");
+                  console.log(index, "ini index Kategori.");
+                  return (
+                    <option key={index} value={item.id}>
+                      {item.name}
+                    </option>
+                  );
+                })}
               </Form.Control>
             </Form.Group>
           </Form.Row>
@@ -111,8 +111,8 @@ const AddBook = (props) => {
             <Form.Group controlId="formGridName">
               <Form.Label>Author</Form.Label>
               <Form.Control
-                value={data.author}
-                onChange={(e) => handleForm(e, "author")}
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
               />
             </Form.Group>
           </Form.Row>
@@ -122,8 +122,8 @@ const AddBook = (props) => {
               <Form.Label>ISBN Number</Form.Label>
               <Form.Control
                 type="number"
-                value={data.no_isbn}
-                onChange={(e) => handleForm(e, "no_isbn")}
+                value={no_isbn}
+                onChange={(e) => setNoisbn(e.target.value)}
               />
             </Form.Group>
           </Form.Row>
@@ -133,8 +133,8 @@ const AddBook = (props) => {
               <Form.Label>Weight</Form.Label>
               <Form.Control
                 type="number"
-                value={data.berat}
-                onChange={(e) => handleForm(e, "berat")}
+                value={berat}
+                onChange={(e) => setBerat(e.target.value)}
               />
             </Form.Group>
           </Form.Row>
@@ -143,8 +143,8 @@ const AddBook = (props) => {
             <Form.Group controlId="formGridIdDesc">
               <Form.Label>Description</Form.Label>
               <Form.Control
-                value={data.description}
-                onChange={(e) => handleForm(e, "description")}
+                value={description}
+                onChange={(e) => setDesc(e.target.value)}
               />
             </Form.Group>
           </Form.Row>
@@ -153,8 +153,8 @@ const AddBook = (props) => {
             <Form.Group controlId="formGridCurrency">
               <Form.Label>Price</Form.Label>
               <Form.Control
-                value={data.harga}
-                onChange={(e) => handleForm(e, "harga")}
+                value={harga}
+                onChange={(e) => setHarga(e.target.value)}
               />
             </Form.Group>
           </Form.Row>
@@ -164,8 +164,13 @@ const AddBook = (props) => {
               <Form.Label>Book Cover</Form.Label>
               <Form.File
                 inputProps={{ accept: "images/jpeg, images/jpg, images/png" }}
-                onChange={(e) => handleForm(e, null, "image_url")}
                 label="Insert Here!"
+                className="form-control"
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                onChange={(e) => setImage(e.target.files[0])}
               />
             </Form.Group>
           </Form.Row>
@@ -180,5 +185,4 @@ const AddBook = (props) => {
     </div>
   );
 };
-
 export default connect(mapStateToProps, mapDispatchToProps)(AddBook);

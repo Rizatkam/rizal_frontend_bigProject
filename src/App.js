@@ -2,9 +2,9 @@ import React from 'react';
 import './App.css';
 import {Switch, Route} from 'react-router-dom';
 
-import AdminAddBook from './pages/admin/addBook';
+import AdminAddBook from './pages/admin/addBook2';
 import AdminBook from './pages/admin/book';
-import AdminBookDetail from './pages/admin/bookDetail';
+import AdminBookDetail from './pages/admin/bookDetail2';
 // import UserBook from './pages/user/book';
 // import UserBookDetail from './pages/user/bookDetail';
 // import UserCart from './pages/user/cart';
