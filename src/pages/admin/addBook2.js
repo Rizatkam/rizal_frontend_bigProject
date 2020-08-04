@@ -45,12 +45,12 @@ const AddBook = (props) => {
     data.append("no_isbn", no_isbn);
     data.append("berat", berat);
     data.append("description", description);
-    if(data){setGoto(true)}else{setGoto(false)}
+    // if(data){setGoto(true)}else{setGoto(false)}
     props.addBook(data);
   };
   async function getCategory() {
     const request = await axios.get(`${ENDPOINT}kategori`);
-    setDataKategori(request.data.data);
+    setDataKategori(request.data.data.rows);
   }
   useEffect(() => {
     getCategory();
@@ -95,8 +95,6 @@ const AddBook = (props) => {
               >
                 <option>--Choose--</option>
                 {dataKategori.map(function (item, index) {
-                  console.log(item, "ini item Kategori.");
-                  console.log(index, "ini index Kategori.");
                   return (
                     <option key={index} value={item.id}>
                       {item.name}

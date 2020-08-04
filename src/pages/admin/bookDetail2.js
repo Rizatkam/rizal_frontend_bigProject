@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import numeral from "numeral";
 import { connect } from "react-redux";
+import axios from "axios";
 import { ENDPOINT } from "../../utils/globals";
 import { getBookById, updateBook, deleteBook } from "../../store/actions";
 
@@ -31,10 +32,21 @@ const BookDetailPage = (props) => {
   const [no_isbn, setNoisbn] = useState("");
   const [berat, setBerat] = useState(0);
   const [description, setDesc] = useState("");
+  const [dataKategori, setDataKategori] = useState([]);
   const [goto, setGoto] = useState(false);
+  const {book}=props;
+
+  async function getCategory() {
+    const request = await axios.get(`${ENDPOINT}kategori`);
+    setDataKategori(request.data.data.rows);
+  }
+  // useEffect(() => {
+  //   getCategory();
+  // }, []);
 
   useEffect((id) => {
     props.getBookById(props.match.params.id);
+    getCategory();
   }, []);
   const handleUpdate = (id, e) => {
     e.preventDefault();
@@ -51,7 +63,7 @@ const BookDetailPage = (props) => {
     props.updateBook(data, id);
   };
   const handleDelete = (id) => {
-    props.deleteBook(id);
+    props.deleteBook(props.match.params.id);
   };
   return (
     <div className="App">
@@ -63,11 +75,11 @@ const BookDetailPage = (props) => {
               {/* title */}
               {edit ? (
                 <Form.Control
-                  value={title}
+                  value={book.title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               ) : (
-                <h2 style={{ color: "#8052ff" }}>{title}</h2>
+                <h2 style={{ color: "#8052ff" }}>{book&&book.title}</h2>
               )}
             </div>
           </div>
@@ -90,7 +102,7 @@ const BookDetailPage = (props) => {
                   className="img-fluid"
                   variant="top"
                   alt=""
-                  src={`${ENDPOINT}${image_url}`}
+                  src={`${ENDPOINT}${book.image_url}`}
                   width={450}
                 />
               )}
@@ -100,7 +112,7 @@ const BookDetailPage = (props) => {
               {edit ? (
                 <Form.Control
                   as="select"
-                  value="warning"
+                  value={book.status}
                   onChange={(e) => setStatus(e.target.value)}
                 >
                   <option>--Choose--</option>
@@ -112,34 +124,34 @@ const BookDetailPage = (props) => {
                   variant="warning"
                   className="btn-sm font-weight-bold m-2"
                 >
-                  {status ? status.name : null}
+                  {book.status ? book.status.name : null}
                 </Button>
               )}
               {/* kategori */}
               {edit ? (
                 <Form.Control
                   as="select"
-                  value={kategori_id}
+                  value={book.kategori_id}
                   onChange={(e) => setKategori(e.target.value)}
                 >
                   <option>--Choose--</option>
-                  <option value="1">Agama</option>
-                  <option value="2">Anak-Anak</option>
-                  <option value="3">Bisnis dan Ekonomi</option>
-                  <option value="4">Buku Medis</option>
-                  <option value="5">Pertanian</option>
-                  <option value="6">Hukum</option>
-                  <option value="7">Komputer dan Teknologi</option>
+                  {dataKategori.map(function (item, index) {
+                    return (
+                      <option key={index} value={item.id}>
+                        {item.name}
+                      </option>
+                    );
+                  })}
                 </Form.Control>
               ) : (
                 <h3 style={{ color: "#8052ff" }}>
-                  {kategori ? kategori.name : null}
+                  {book.kategori ? book.kategori.name : null}
                 </h3>
               )}
               {/* harga */}
               {edit ? (
                 <Form.Control
-                  value={harga}
+                  value={book.harga}
                   onChange={(e) => setHarga(e.target.value)}
                 />
               ) : (
@@ -147,57 +159,53 @@ const BookDetailPage = (props) => {
                   className="my-2 font-weight-bold"
                   style={{ color: "#8052ff" }}
                 >
-                  {`Rp ${numeral(harga).format("0,0")}`}
+                  {`Rp ${numeral(book&&book.harga).format("0,0")}`}
                 </h4>
               )}
               {/* author */}
               {edit ? (
                 <Form.Control
-                  value={author}
+                  value={book.author}
                   onChange={(e) => setAuthor(e.target.value)}
                 />
               ) : (
-                <h5 className="my-3 text-dark text-left">
-                  Author: {author}
-                </h5>
+                <h5 className="my-3 text-dark text-left">Author: {book&&book.author}</h5>
               )}
               {/* no_isbn */}
               {edit ? (
                 <Form.Control
-                  value={no_isbn}
+                  value={book.no_isbn}
                   onChange={(e) => setNoisbn(e.target.value)}
                 />
               ) : (
                 <h6 className="my-3 text-dark text-left">
-                  ISBN Number: {no_isbn}
+                  ISBN Number: {book&&book.no_isbn}
                 </h6>
               )}
               {/* berat */}
               {edit ? (
                 <Form.Control
-                  value={berat}
+                  value={book.berat}
                   onChange={(e) => setBerat(e.target.value)}
                 />
               ) : (
-                <h6>Weight:{berat}</h6>
+                <h6>Weight:{book&&book.berat}</h6>
               )}
               {/* description */}
               <h6 className="text-left">Description :</h6>
               {edit ? (
                 <Form.Control
-                  value={description}
+                  value={book.description}
                   onChange={(e) => setDesc(e.target.value)}
                 />
               ) : (
-                <p className="text-black-50 text-justify">
-                  {description}
-                </p>
+                <p className="text-black-50 text-justify">{book&&book.description}</p>
               )}
             </div>
           </div>
           {edit ? (
             <div>
-              <Button variant="primary" onClick={() => handleUpdate()}>
+              <Button variant="primary" onClick={(id,e) => handleUpdate(id,e)}>
                 Save
               </Button>{" "}
               <Button
@@ -214,7 +222,7 @@ const BookDetailPage = (props) => {
               <Button variant="success" onClick={() => setEdit(true)}>
                 Edit
               </Button>{" "}
-              <Button variant="danger" onClick={() => handleDelete(book.id)}>
+              <Button variant="danger" onClick={(id) => handleDelete(id)}>
                 Delete
               </Button>
             </div>
