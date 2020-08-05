@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addBook: (data) => dispatch(addBook(data)),
+    addBook: (status_id,kategori_id,title,harga,author,image_url,no_isbn,berat,description) => dispatch(addBook(status_id,kategori_id,title,harga,author,image_url,no_isbn,berat,description)),
   };
 };
 
@@ -46,7 +46,7 @@ const AddBook = (props) => {
     data.append("berat", berat);
     data.append("description", description);
     // if(data){setGoto(true)}else{setGoto(false)}
-    props.addBook(data);
+    props.addBook(status_id,kategori_id,title,harga,author,image_url,no_isbn,berat,description);
   };
   async function getCategory() {
     const request = await axios.get(`${ENDPOINT}kategori`);

@@ -9,7 +9,32 @@ import { getBookById, updateBook, deleteBook } from "../../store/actions";
 const mapDispatchToProps = (dispatch) => {
   return {
     getBookById: (id) => dispatch(getBookById(id)),
-    updateBook: (data, id) => dispatch(updateBook(data, id)),
+    updateBook: (
+      status_id,
+      kategori_id,
+      title,
+      harga,
+      author,
+      image_url,
+      no_isbn,
+      berat,
+      description,
+      id
+    ) =>
+      dispatch(
+        updateBook(
+          id,
+          status_id,
+          kategori_id,
+          title,
+          harga,
+          author,
+          image_url,
+          no_isbn,
+          berat,
+          description
+        )
+      ),
     deleteBook: (id) => dispatch(deleteBook(id)),
   };
 };
@@ -34,18 +59,19 @@ const BookDetailPage = (props) => {
   const [description, setDesc] = useState("");
   const [dataKategori, setDataKategori] = useState([]);
   const [goto, setGoto] = useState(false);
-  const {book}=props;
+  const { book } = props;
+
 
   async function getCategory() {
     const request = await axios.get(`${ENDPOINT}kategori`);
     setDataKategori(request.data.data.rows);
   }
 
-  useEffect((id) => {
+  useEffect(() => {
     props.getBookById(props.match.params.id);
     getCategory();
   }, []);
-  const handleUpdate = (id, e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
     const data = new FormData();
     data.append("status_id", status_id);
@@ -57,7 +83,17 @@ const BookDetailPage = (props) => {
     data.append("no_isbn", no_isbn);
     data.append("berat", berat);
     data.append("description", description);
-    props.updateBook(data, id);
+    props.updateBook(          status_id,
+      props.match.params.id,
+      kategori_id,
+      title,
+      harga,
+      author,
+      image_url,
+      no_isbn,
+      berat,
+      description,
+      );
   };
   const handleDelete = (id) => {
     props.deleteBook(props.match.params.id);
@@ -76,7 +112,7 @@ const BookDetailPage = (props) => {
                   onChange={(e) => setTitle(e.target.value)}
                 />
               ) : (
-                <h2 style={{ color: "#8052ff" }}>{book&&book.title}</h2>
+                <h2 style={{ color: "#8052ff" }}>{book && book.title}</h2>
               )}
             </div>
           </div>
@@ -132,7 +168,7 @@ const BookDetailPage = (props) => {
                   onChange={(e) => setKategori(e.target.value)}
                 >
                   <option>--Choose--</option>
-                  {dataKategori.map((item, index)=>{
+                  {dataKategori.map((item, index) => {
                     return (
                       <option key={index} value={item.id}>
                         {item.name}
@@ -156,7 +192,7 @@ const BookDetailPage = (props) => {
                   className="my-2 font-weight-bold"
                   style={{ color: "#8052ff" }}
                 >
-                  {`Rp ${numeral(book&&book.harga).format("0,0")}`}
+                  {`Rp ${numeral(book && book.harga).format("0,0")}`}
                 </h4>
               )}
               {/* author */}
@@ -166,7 +202,9 @@ const BookDetailPage = (props) => {
                   onChange={(e) => setAuthor(e.target.value)}
                 />
               ) : (
-                <h5 className="my-3 text-dark text-left">Author: {book&&book.author}</h5>
+                <h5 className="my-3 text-dark text-left">
+                  Author: {book && book.author}
+                </h5>
               )}
               {/* no_isbn */}
               {edit ? (
@@ -176,7 +214,7 @@ const BookDetailPage = (props) => {
                 />
               ) : (
                 <h6 className="my-3 text-dark text-left">
-                  ISBN Number: {book&&book.no_isbn}
+                  ISBN Number: {book && book.no_isbn}
                 </h6>
               )}
               {/* berat */}
@@ -186,7 +224,7 @@ const BookDetailPage = (props) => {
                   onChange={(e) => setBerat(e.target.value)}
                 />
               ) : (
-                <h6>Weight:{book&&book.berat}</h6>
+                <h6>Weight:{book && book.berat}</h6>
               )}
               {/* description */}
               <h6 className="text-left">Description :</h6>
@@ -196,13 +234,18 @@ const BookDetailPage = (props) => {
                   onChange={(e) => setDesc(e.target.value)}
                 />
               ) : (
-                <p className="text-black-50 text-justify">{book&&book.description}</p>
+                <p className="text-black-50 text-justify">
+                  {book && book.description}
+                </p>
               )}
             </div>
           </div>
           {edit ? (
             <div>
-              <Button variant="primary" onClick={(id,e) => handleUpdate(id,e)}>
+              <Button
+                variant="primary"
+                onClick={(id, e) => handleUpdate(id, e)}
+              >
                 Save
               </Button>{" "}
               <Button
