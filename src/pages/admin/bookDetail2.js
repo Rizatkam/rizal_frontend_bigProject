@@ -40,9 +40,6 @@ const BookDetailPage = (props) => {
     const request = await axios.get(`${ENDPOINT}kategori`);
     setDataKategori(request.data.data.rows);
   }
-  // useEffect(() => {
-  //   getCategory();
-  // }, []);
 
   useEffect((id) => {
     props.getBookById(props.match.params.id);
@@ -135,7 +132,7 @@ const BookDetailPage = (props) => {
                   onChange={(e) => setKategori(e.target.value)}
                 >
                   <option>--Choose--</option>
-                  {dataKategori.map(function (item, index) {
+                  {dataKategori.map((item, index)=>{
                     return (
                       <option key={index} value={item.id}>
                         {item.name}

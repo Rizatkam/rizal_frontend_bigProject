@@ -94,7 +94,7 @@ const AddBook = (props) => {
                 onChange={(e) => setKategori(e.target.value)}
               >
                 <option>--Choose--</option>
-                {dataKategori.map(function (item, index) {
+                {dataKategori.map((item, index)=> {
                   return (
                     <option key={index} value={item.id}>
                       {item.name}
