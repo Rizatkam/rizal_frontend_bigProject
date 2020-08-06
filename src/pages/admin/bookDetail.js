@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import numeral from "numeral";
 import { connect } from "react-redux";
+import axios from "axios";
 import { ENDPOINT } from "../../utils/globals";
 import { getBookById, updateBook, deleteBook } from "../../store/actions";
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getBookById: (id) => dispatch(getBookById(id)),
-    updateBook: (data, id) => dispatch(updateBook(data, id)),
+    updateBook: (id, data) => dispatch(updateBook(id, data)),
     deleteBook: (id) => dispatch(deleteBook(id)),
   };
 };
@@ -22,51 +23,57 @@ const mapStateToProps = (state) => {
 const BookDetailPage = (props) => {
   console.log(props, "Ini props dari page BookDetailPage");
   const [edit, setEdit] = useState(false);
-  const [data, setData] = useState({});
-  const [status, setStatus] = useState("warning");
+  const [status_id, setStatus] = useState(0);
+  const [kategori_id, setKategori] = useState(0);
+  const [title, setTitle] = useState("");
+  const [harga, setHarga] = useState("");
+  const [author, setAuthor] = useState("");
+  const [image_url, setImage] = useState("");
+  const [no_isbn, setNoisbn] = useState("");
+  const [berat, setBerat] = useState(0);
+  const [description, setDesc] = useState("");
+  const [dataKategori, setDataKategori] = useState([]);
+  const [goto, setGoto] = useState(false);
   const { book } = props;
+  const id = props.match.params.id;
+  const variant = book.status_id === 1 ? "info" : "warning";
 
-  useEffect((id) => {
-    props.getBookById(props.match.params.id);
-  }, []);
+  async function getCategory() {
+    const request = await axios.get(`${ENDPOINT}kategori`);
+    setDataKategori(request.data.data.rows);
+  }
+
   useEffect(() => {
-    if (book) {
-      console.log(book, "ini komponen Book Detail");
-      setData({
-        id: book.id,
-        kategori_id: book.kategori.id,
-        kategori: book.kategori,
-        status_id: book.status.id,
-        status: book.status,
-        title: book.title,
-        harga: book.harga,
-        author: book.author,
-        image_url: book.image_url,
-        no_isbn: book.no_isbn,
-        berat: book.berat,
-        description: book.description,
-      });
-      if (book.status_id === 1) {
-        setStatus("info");
-      } else {
-        setStatus("warning");
-      }
-    }
-  }, [book]);
-  const handleUpdate = (data, id) => {
-    props.updateBook(data, id);
+    props.getBookById(id);
+    getCategory();
+    setStatus(book.status_id);
+    setKategori(book.kategori_id);
+    setTitle(book.title);
+    setHarga(book.harga);
+    setAuthor(book.author);
+    setImage(book.image_url);
+    setNoisbn(book.no_isbn);
+    setBerat(book.berat);
+    setDesc(book.description);
+  }, []);
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    const data = new FormData();
+    data.append("status_id", status_id);
+    data.append("kategori_id", kategori_id);
+    data.append("title", title);
+    data.append("harga", harga);
+    data.append("author", author);
+    data.append("image_url", image_url);
+    data.append("no_isbn", no_isbn);
+    data.append("berat", berat);
+    data.append("description", description);
+    props.updateBook(id, data);
   };
-  const handleDelete = (id) => {
+  const handleDelete = () => {
     props.deleteBook(id);
   };
-  const handleForm = (e, formName, formFile) => {
-    setData({
-      ...data,
-      [formName]: e.target.value,
-      [formFile]: e.target.files[0],
-    });
-  };
-  console.log(data.status, "ini status");
   return (
     <div className="App">
       <div className="container">
@@ -77,11 +84,12 @@ const BookDetailPage = (props) => {
               {/* title */}
               {edit ? (
                 <Form.Control
-                  value={data.title}
-                  onChange={(e) => handleForm(e, "title", null)}
+                  placeholder="Title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
               ) : (
-                <h2 style={{ color: "#8052ff" }}>{data && data.title}</h2>
+                <h2 style={{ color: "#8052ff" }}>{book && book.title}</h2>
               )}
             </div>
           </div>
@@ -91,15 +99,20 @@ const BookDetailPage = (props) => {
               {edit ? (
                 <Form.File
                   inputProps={{ accept: "images/jpeg, images/jpg, images/png" }}
-                  onChange={(e) => handleForm(e, null, "image_url")}
                   label="Insert Here!"
+                  className="form-control"
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  onChange={(e) => setImage(e.target.files[0])}
                 />
               ) : (
                 <img
                   className="img-fluid"
                   variant="top"
                   alt=""
-                  src={`${ENDPOINT}${data.image_url}`}
+                  src={`${ENDPOINT}${book.image_url}`}
                   width={450}
                 />
               )}
@@ -109,122 +122,120 @@ const BookDetailPage = (props) => {
               {edit ? (
                 <Form.Control
                   as="select"
-                  value={data.status_id}
-                  onChange={(e) => handleForm(e, "status_id",null)}
+                  placeholder="status"
+                  value={status_id}
+                  onChange={(e) => setStatus(e.target.value)}
                 >
-                  <option>--Choose--</option>
+                  <option>--Choose Status--</option>
                   <option value="1">FOR SELL</option>
                   <option value="2">OUT OF STOCK</option>
                 </Form.Control>
               ) : (
                 <Button
-                  variant={status}
+                  variant={variant}
                   className="btn-sm font-weight-bold m-2"
                 >
-                  {data.status ? data.status.name : null}
+                  {book.status ? book.status.name : null}
                 </Button>
               )}
               {/* kategori */}
               {edit ? (
                 <Form.Control
                   as="select"
-                  value={data.kategori_id}
-                  onChange={(e) => handleForm(e, "kategori_id",null)}
+                  placeholder="Kategori"
+                  value={kategori_id}
+                  onChange={(e) => setKategori(e.target.value)}
                 >
-                  <option>--Choose--</option>
-                  <option value="1">Agama</option>
-                  <option value="2">Anak-Anak</option>
-                  <option value="3">Bisnis dan Ekonomi</option>
-                  <option value="4">Buku Medis</option>
-                  <option value="5">Pertanian</option>
-                  <option value="6">Hukum</option>
-                  <option value="7">Komputer dan Teknologi</option>
+                  <option>--Choose Kategori--</option>
+                  {dataKategori.map((item, index) => {
+                    return (
+                      <option key={index} value={item.id}>
+                        {item.name}
+                      </option>
+                    );
+                  })}
                 </Form.Control>
               ) : (
                 <h3 style={{ color: "#8052ff" }}>
-                  {data.kategori ? data.kategori.name : null}
+                  {book.kategori ? book.kategori.name : null}
                 </h3>
               )}
               {/* harga */}
               {edit ? (
                 <Form.Control
-                  value={data.harga}
-                  onChange={(e) => handleForm(e, "harga",null)}
+                  placeholder="Harga"
+                  value={harga}
+                  onChange={(e) => setHarga(e.target.value)}
                 />
               ) : (
                 <h4
                   className="my-2 font-weight-bold"
                   style={{ color: "#8052ff" }}
                 >
-                  {`Rp ${numeral(data && data.harga).format("0,0")}`}
+                  {`Rp ${numeral(book && book.harga).format("0,0")}`}
                 </h4>
               )}
               {/* author */}
               {edit ? (
                 <Form.Control
-                  value={data.author}
-                  onChange={(e) => handleForm(e, "author",null)}
+                  placeholder="Author"
+                  value={author}
+                  onChange={(e) => setAuthor(e.target.value)}
                 />
               ) : (
                 <h5 className="my-3 text-dark text-left">
-                  Author: {data && data.author}
+                  Author: {book && book.author}
                 </h5>
               )}
               {/* no_isbn */}
               {edit ? (
                 <Form.Control
-                  value={data.no_isbn}
-                  onChange={(e) => handleForm(e, "no_isbn",null)}
+                  placeholder="No.ISBN"
+                  value={no_isbn}
+                  onChange={(e) => setNoisbn(e.target.value)}
                 />
               ) : (
                 <h6 className="my-3 text-dark text-left">
-                  ISBN Number: {data && data.no_isbn}
+                  ISBN Number: {book && book.no_isbn}
                 </h6>
               )}
               {/* berat */}
               {edit ? (
                 <Form.Control
-                  value={data.berat}
-                  onChange={(e) => handleForm(e, "berat",null)}
+                  placeholder="Berat"
+                  value={berat}
+                  onChange={(e) => setBerat(e.target.value)}
                 />
               ) : (
-                <h6>Weight:{data && data.berat}</h6>
+                <h6>Weight:{book && book.berat}</h6>
               )}
               {/* description */}
               <h6 className="text-left">Description :</h6>
               {edit ? (
                 <Form.Control
-                  value={data.description}
-                  onChange={(e) => handleForm(e, "description",null)}
+                  placeholder="Description"
+                  value={description}
+                  onChange={(e) => setDesc(e.target.value)}
                 />
               ) : (
                 <p className="text-black-50 text-justify">
-                  {data && data.description}
+                  {book && book.description}
                 </p>
               )}
             </div>
           </div>
           {edit ? (
             <div>
-              <Button variant="primary" onClick={() => handleUpdate()}>
+              <Button
+                variant="primary"
+                onClick={(id, e) => handleUpdate(id, e)}
+              >
                 Save
               </Button>{" "}
               <Button
                 variant="secondary"
                 onClick={() => {
                   setEdit(false);
-                  setData({
-                    id: book.id,
-                    kategori_id: book.kategori.id,
-                    status_id: book.status.id,
-                    title: book.title,
-                    harga: book.harga,
-                    author: book.author,
-                    image_url: book.image_url,
-                    no_isbn: book.no_isbn,
-                    berat: book.berat,
-                    description: book.description,
-                  });
                 }}
               >
                 Cancel
@@ -235,7 +246,7 @@ const BookDetailPage = (props) => {
               <Button variant="success" onClick={() => setEdit(true)}>
                 Edit
               </Button>{" "}
-              <Button variant="danger" onClick={() => handleDelete(book.id)}>
+              <Button variant="danger" onClick={(id) => handleDelete(id)}>
                 Delete
               </Button>
             </div>

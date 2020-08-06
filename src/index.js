@@ -10,8 +10,18 @@ import reducers from "./store/reducers";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
+const logger = (store) => {
+  return (next) => {
+    return (action) => {
+      console.log('[Middleware] Dispatching', action)
+      const result = next(action);
+      console.log('[Middleware] next state', store.getState())
+      return result;
+    };
+  };
+};
 const composeEnchancers = window._REDUX_DEVTOOLS_EXTENSION_COMPOSE_ || compose;
-const store = createStore(reducers, composeEnchancers(applyMiddleware(thunk)));
+const store = createStore(reducers, composeEnchancers(applyMiddleware(logger,thunk)));
 
 ReactDOM.render(
   <React.StrictMode>
