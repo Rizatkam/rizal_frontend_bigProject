@@ -28,6 +28,8 @@ export const loginUser = (email, password) => {
     return (dispatch)=>{
         request.then((response)=>{
             console.log(response,"ini response Login");
+            window.localStorage.setItem("user_id",response.data.data.user.id);
+            window.localStorage.setItem("role_id",response.data.data.user.role_id);
             window.localStorage.setItem("token",response.data.data.token);
             return dispatch({
                 type:actionsTypes.LOGIN_USER,

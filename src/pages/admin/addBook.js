@@ -3,13 +3,14 @@ import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
-import { ENDPOINT } from "../../utils/globals";
+import { ENDPOINT, access_token } from "../../utils/globals";
 import { addBook } from "../../store/actions";
 
 const mapStateToProps = (state) => {
   console.log(state, "Ini state dari page addBook mapStateToProps");
   return {
     book: state.books.book,
+    user: state.users,
   };
 };
 
@@ -20,7 +21,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const AddBook = (props) => {
-  console.log(props, "ini props dari AddBook.");
   const [status_id, setStatus] = useState(0);
   const [kategori_id, setKategori] = useState(0);
   const [title, setTitle] = useState("");
@@ -31,7 +31,9 @@ const AddBook = (props) => {
   const [berat, setBerat] = useState(0);
   const [description, setDesc] = useState("");
   const [dataKategori, setDataKategori] = useState([]);
-  const [goto, setGoto] = useState(false);
+  const [gotoBook, setGotoBook] = useState(false);
+  const [gotoLogin, setGotoLogin] = useState(false);
+  const { addBook, user } = props;
 
   const onSubmitAddBook = async (e) => {
     e.preventDefault();
@@ -45,20 +47,31 @@ const AddBook = (props) => {
     data.append("no_isbn", no_isbn);
     data.append("berat", berat);
     data.append("description", description);
-    // if(data){setGoto(true)}else{setGoto(false)}
-    props.addBook(data);
+    addBook(data);
+    if (data) {
+      setGotoBook(true);
+      alert("Buku sudah masuk ke Database!");
+    } else {
+      setGotoBook(false);
+    }
   };
   async function getCategory() {
     const request = await axios.get(`${ENDPOINT}kategori`);
     setDataKategori(request.data.data.rows);
   }
   useEffect(() => {
+    if (user.user.role_id === 1 && access_token) {
+      setGotoLogin(false);
+    } else {
+      setGotoLogin(true);
+    }
     getCategory();
-  }, []);
+  }, [user]);
 
   return (
     <div className="main-wrapper">
-      {goto ? <Redirect to="/admin/book" /> : ""}
+      {gotoBook ? <Redirect to="/admin/book" /> : ""}
+      {gotoLogin ? <Redirect to="/login" /> : ""}
       <div>
         <Form onSubmit={(e) => onSubmitAddBook(e)}>
           <Form.Row>

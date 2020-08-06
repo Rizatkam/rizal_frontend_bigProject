@@ -4,7 +4,7 @@ import Footer from "../components/user/footer";
 import numeral from "numeral";
 import { Container, Row, Col, Carousel } from "react-bootstrap";
 import { connect } from "react-redux";
-import { addToCart, getListBook } from "../store/actions";
+import { getListBook } from "../store/actions";
 import { LinkContainer } from "react-router-bootstrap";
 import { ENDPOINT } from "../utils/globals";
 
@@ -16,9 +16,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListBook: () => dispatch(getListBook())
-    }
+    getListBook: () => dispatch(getListBook()),
   };
+};
 
 const Home = (props) => {
   const { books } = props;

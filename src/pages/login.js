@@ -5,15 +5,15 @@ import { loginUser } from "../store/actions";
 import { Redirect } from "react-router-dom";
 
 const mapStateToProps = (state) => {
-  console.log(state,"Ini state dari page Login mapStateToProps")
+  console.log(state, "Ini state dari page Login mapStateToProps");
   return {
-    user: state.users
+    user: state.users,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: (email, password) => dispatch(loginUser(email, password))
+    loginUser: (email, password) => dispatch(loginUser(email, password)),
   };
 };
 
@@ -23,26 +23,21 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
   const [gotoAdmin, setGotoAdmin] = useState(false);
   const [gotoUser, setGotoUser] = useState(false);
-  props.loginUser(email, password);
-  console.log(email,password,"ini email dan password dari page Login.")
+  const { loginUser, user } = props;
+  loginUser(email, password);
+  console.log(email, password, "ini email dan password dari page Login.");
 
   const onSubmitSignin = (e) => {
     e.preventDefault();
-    if (
-      props.user.isLoggedIn &&
-      props.user.user.role_id === 1
-    ) {
+    if (user.isLoggedIn && user.user.role_id === 1) {
       alert("Anda telah Login sebagai Admin.");
       setGotoAdmin(true);
-    } else if (
-      props.user.isLoggedIn &&
-      props.user.user.role_id === 2
-    ) {
-      alert(`Selamat Datang ${props.user.user.name}!`);
+    } else if (user.isLoggedIn && user.user.role_id === 2) {
+      alert(`Selamat Datang ${user.user.name}!`);
       setGotoUser(true);
     } else {
       alert("Anda gagal login. Email dan/atau Password salah,");
-    };
+    }
   };
 
   return (
