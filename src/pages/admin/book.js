@@ -17,20 +17,15 @@ const mapStateToProps = (state) => {
   };
 };
 const BookPage = (props) => {
-  const [gotoLogin, setGotoLogin] = useState(false);
-  const { getListBook, user } = props;
+  const { getListBook, user,history } = props;
   useEffect(() => {
     getListBook();
-    if (user.user.role_id === 1 && access_token) {
-      setGotoLogin(false);
-    } else {
-      setGotoLogin(true);
+    if (!(user && user.user && user.user.role_id === 1 && access_token)) {
+      history.push("/login");
     }
   }, [user]);
 
   return (
-    <div className="main-wrapper">
-      {gotoLogin ? <Redirect to="/login" /> : ""}
       <div className="App">
         <header className="App-header">
           <div className="container m-3">
@@ -44,7 +39,6 @@ const BookPage = (props) => {
           </div>
         </header>
       </div>
-    </div>
   );
 };
 

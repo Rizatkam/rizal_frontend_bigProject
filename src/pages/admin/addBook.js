@@ -32,8 +32,7 @@ const AddBook = (props) => {
   const [description, setDesc] = useState("");
   const [dataKategori, setDataKategori] = useState([]);
   const [gotoBook, setGotoBook] = useState(false);
-  const [gotoLogin, setGotoLogin] = useState(false);
-  const { addBook, user } = props;
+  const { addBook, user, history } = props;
 
   const onSubmitAddBook = async (e) => {
     e.preventDefault();
@@ -60,10 +59,8 @@ const AddBook = (props) => {
     setDataKategori(request.data.data.rows);
   }
   useEffect(() => {
-    if (user.user.role_id === 1 && access_token) {
-      setGotoLogin(false);
-    } else {
-      setGotoLogin(true);
+    if (!(user && user.user && user.user.role_id === 1 && access_token)) {
+      history.push("/login");
     }
     getCategory();
   }, [user]);
@@ -71,7 +68,6 @@ const AddBook = (props) => {
   return (
     <div className="main-wrapper">
       {gotoBook ? <Redirect to="/admin/book" /> : ""}
-      {gotoLogin ? <Redirect to="/login" /> : ""}
       <div>
         <Form onSubmit={(e) => onSubmitAddBook(e)}>
           <Form.Row>

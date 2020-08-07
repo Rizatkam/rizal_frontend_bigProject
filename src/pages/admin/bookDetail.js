@@ -3,7 +3,6 @@ import { Card, Button, Form } from "react-bootstrap";
 import numeral from "numeral";
 import { connect } from "react-redux";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
 import { ENDPOINT, access_token } from "../../utils/globals";
 import { getBookById, updateBook, deleteBook } from "../../store/actions";
 
@@ -37,8 +36,15 @@ const BookDetailPage = (props) => {
   const [description, setDesc] = useState("");
   const [dataKategori, setDataKategori] = useState([]);
   const [variant, setVariant] = useState("");
-  const [gotoLogin, setGotoLogin] = useState(false);
-  const { book, user, match, getBookById, updateBook, deleteBook } = props;
+  const {
+    book,
+    user,
+    match,
+    history,
+    getBookById,
+    updateBook,
+    deleteBook,
+  } = props;
 
   async function getCategory() {
     const request = await axios.get(`${ENDPOINT}kategori`);
@@ -67,10 +73,8 @@ const BookDetailPage = (props) => {
     }
   }, [book]);
   useEffect(() => {
-    if (user.user.role_id === 1 && access_token) {
-      setGotoLogin(false);
-    } else {
-      setGotoLogin(true);
+    if (!(user && user.user && user.user.role_id === 1 && access_token)) {
+      history.push("/login");
     }
   }, [user]);
 
@@ -92,8 +96,6 @@ const BookDetailPage = (props) => {
     deleteBook(id);
   };
   return (
-    <div className="main-wrapper">
-      {gotoLogin ? <Redirect to="/login" /> : ""}
       <div className="App">
         <div className="container">
           <Card className="pl-o p-5">
@@ -275,7 +277,6 @@ const BookDetailPage = (props) => {
           </Card>
         </div>
       </div>
-    </div>
   );
 };
 
