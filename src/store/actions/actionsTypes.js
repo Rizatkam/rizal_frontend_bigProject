@@ -6,10 +6,9 @@ export const UPDATE_BOOK = "[BOOK] UPDATE BOOK";
 export const DELETE_BOOK = "[BOOK] DELETE BOOK";
 export const GET_CATEGORY = "[BOOK] GET CATEGORY";
 
-export const ADD_USER = "[USER] ADD_USER";
-export const LOGIN_USER = "[USER] LOGIN_USER";
+export const ADD_USER = "[USER] ADD USER";
+export const LOGIN_USER = "[USER] LOGIN USER";
 
-export const GET_LIST_CART = "GET LIST CART";
-export const ADD_TO_CART = "ADD TO CART";
-export const DELETE_FROM_CART = "DELETE FROM CART";
-export const UPDATE_ON_CART = "UPDATE ON CART";
+export const GET_ORDER = "[ORDER] GET ORDER";
+export const ADD_ORDER = "[ORDER] ADD ORDER";
+export const GET_ORDER_BY_ID = "[ORDER] GET ORDER BY ID";

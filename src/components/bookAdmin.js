@@ -3,7 +3,7 @@ import { Card, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { withRouter } from "react-router-dom";
 import numeral from "numeral";
-import { ENDPOINT } from "../../utils/globals";
+import { ENDPOINT } from "../utils/globals";
 
 const Book = ({ book }) => {
   const status = book.status_id === 1 ? "info" : "warning";

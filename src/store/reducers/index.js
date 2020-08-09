@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 import books from './books';
 import users from './users';
-import cart from './cart';
+import orders from './orders';
 
-export default combineReducers({books,users,cart})
+export default combineReducers({books,users,orders})

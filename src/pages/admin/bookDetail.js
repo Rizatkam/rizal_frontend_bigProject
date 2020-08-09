@@ -96,7 +96,7 @@ const BookDetailPage = (props) => {
     deleteBook(id);
   };
   return (
-      <div className="App">
+      <div>
         <div className="container">
           <Card className="pl-o p-5">
             <div className="row">

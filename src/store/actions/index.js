@@ -5,5 +5,5 @@ export {
   updateBook,
   deleteBook,
 } from "./books";
-export { getListCart, addToCart, deleteFromCart, updateOnCart } from "./cart";
+export { addOrder, getListOrder, getOrderById } from "./orders";
 export { loginUser, registerUser } from "./users";

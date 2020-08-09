@@ -1,4 +1,3 @@
-//Harus Disesuaikan dulu payload nya
 import * as actionsTypes from "./actionsTypes";
 import axios from "axios";
 import { ENDPOINT, access_token } from "../../utils/globals";
@@ -18,8 +17,8 @@ export const addBook = (data) => {
     });
   };
 };
-export const getListBook = () => {
-  const request = axios.get(`${ENDPOINT}buku`);
+export const getListBook = (params) => {
+  const request = axios.get(`${ENDPOINT}buku`, { params });
   return (dispatch) =>
     request.then((response) => {
       return dispatch({

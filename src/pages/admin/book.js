@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Book from "../../components/admin/book";
-import { access_token } from "../../utils/globals";
+import { Form } from "react-bootstrap";
+import Book from "../../components/bookAdmin";
+import axios from "axios";
+import { ENDPOINT, access_token } from "../../utils/globals";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { getListBook } from "../../store/actions";
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListBook: () => dispatch(getListBook()),
+    getListBook: (params) => dispatch(getListBook(params)),
   };
 };
 const mapStateToProps = (state) => {
@@ -17,28 +18,55 @@ const mapStateToProps = (state) => {
   };
 };
 const BookPage = (props) => {
-  const { getListBook, user,history } = props;
+  const [dataKategori, setDataKategori] = useState([]);
+  const [kategori_id, setKategori] = useState("");
+  const { getListBook, user, match, history } = props;
+  async function getCategory() {
+    const request = await axios.get(`${ENDPOINT}kategori`);
+    setDataKategori(request.data.data.rows);
+  }
   useEffect(() => {
-    getListBook();
+    if (match && match.params) {
+      getListBook({ kategori_id: kategori_id });
+      getCategory();
+    }
+  }, [match, getListBook, kategori_id]);
+  useEffect(() => {
     if (!(user && user.user && user.user.role_id === 1 && access_token)) {
       history.push("/login");
     }
   }, [user]);
 
   return (
-      <div className="App">
-        <header className="App-header">
-          <div className="container m-3">
-            <h2>CILSY+</h2>
-          </div>
-          <div className="container">
-            <div className="row">
-              {props.books &&
-                props.books.map((val, key) => <Book key={key} book={val} />)}
-            </div>
-          </div>
-        </header>
+    <div className="App-header">
+      <div className="container m-3">
+        <h2>CILSY+</h2>
       </div>
+      <Form.Row>
+        <Form.Group controlId="formGridCategory">
+          <Form.Label>Category</Form.Label>
+          <Form.Control
+            as="select"
+            onChange={(e) => setKategori(e.target.value)}
+          >
+            <option value="">--Choose--</option>
+            {dataKategori.map((item, index) => {
+              return (
+                <option key={index} value={item.id}>
+                  {item.name}
+                </option>
+              );
+            })}
+          </Form.Control>
+        </Form.Group>
+      </Form.Row>
+      <div className="container">
+        <div className="row">
+          {props.books &&
+            props.books.map((val, key) => <Book key={key} book={val} />)}
+        </div>
+      </div>
+    </div>
   );
 };
 
