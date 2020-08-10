@@ -59,10 +59,10 @@ const AddBook = (props) => {
     setDataKategori(request.data.data.rows);
   }
   useEffect(() => {
-    if (!(user && user.user && user.user.role_id === 1 && access_token)) {
-      history.push("/login");
-    }
-    getCategory();
+    // if (!(user && user.user && user.user.role_id === 1 && access_token)) {
+    //   history.push("/login");
+    // };
+    getCategory()
   }, [user]);
 
   return (
@@ -159,6 +159,7 @@ const AddBook = (props) => {
             <Form.Group controlId="formGridCurrency">
               <Form.Label>Price</Form.Label>
               <Form.Control
+                type="number"
                 value={harga}
                 onChange={(e) => setHarga(e.target.value)}
               />

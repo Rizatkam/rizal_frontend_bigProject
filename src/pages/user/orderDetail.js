@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Card, Button } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import numeral from "numeral";
 import { connect } from "react-redux";
-import { ENDPOINT, access_token } from "../../utils/globals";
+import { access_token } from "../../utils/globals";
 import { getOrderById } from "../../store/actions";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
@@ -18,7 +18,55 @@ const mapStateToProps = (state) => {
     order: state.orders.order,
   };
 };
-const OrderPage = (props) => {
-  return 1;
+const OrderDetailPage = (props) => {
+  console.log(props, "ini props order detail");
+  const [id, setId] = useState(0);
+  const [params, setParams] = useState({});
+  const { user, order, match, history, getOrderById } = props;
+  useEffect(() => {
+    if (match && match.params && match.params.id) {
+      setId(match.params.id);
+    }
+    if (user && user.user && user.user.id) {
+      setParams({ user_id: user.user.id });
+    }
+    // if (!(user && user.user && user.user.role_id === 2 && access_token)) {
+    //   history.push("/login");
+    // }
+    getOrderById(id, params);
+  }, [match, user, getOrderById]);
+  return (
+    <div>
+      <Header />
+      <div>
+      <h1>Order Number:</h1>
+      <h1>{order && order.id}</h1>
+      </div>
+      <Table striped bordered hover variant="dark">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Qty.</th>
+            <th>Price</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        {order &&
+          order.orders_detail.map((val, key) => {
+            return (
+              <tbody>
+                <tr key={key}>
+                  <td>{val && val.title}</td>
+                  <td>{val && val.quantity}</td>
+                  <td>{`Rp ${numeral(val && val.harga).format("0,0")}`}</td>
+                  <td>{val && val.total}</td>
+                </tr>
+              </tbody>
+            );
+          })}
+      </Table>
+      <Footer />
+    </div>
+  );
 };
-export default connect(mapStateToProps, mapDispatchToProps)(OrderPage);
+export default connect(mapStateToProps, mapDispatchToProps)(OrderDetailPage);

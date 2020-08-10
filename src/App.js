@@ -27,13 +27,13 @@ function App() {
 
       <Route path='/user/book/:id' component={UserBookDetail}/>
       <Route path='/user/book' component={UserBook}/>
-      <Route path='/user/orders' component={UserOrder}/>
-      <Route path='/user/orderDetail/:id' component={UserOrderDetail}/>
+      <Route path='/user/order' component={UserOrder}/>
+      <Route path='/user/order/:id' component={UserOrderDetail}/>
 
       <Route path='/admin/addBook' component={AdminAddBook}/>
       <Route path='/admin/book/:id' component={AdminBookDetail}/>
       <Route path='/admin/book' component={AdminBook}/>
-      <Route path='/admin/orders' component={AdminOrder}/>
+      <Route path='/admin/order' component={AdminOrder}/>
     </Switch>
     </div>
   );

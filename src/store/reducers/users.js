@@ -11,14 +11,14 @@ const users = (state = initial, action) => {
         case actionTypes.ADD_USER:
     return {
         ...state,
-        user: action.payload.data.user,
+        user: action.payload.user,
         isLoggedIn: false
       };
         case actionTypes.LOGIN_USER:
     return {
         ...state,
-        user: action.payload.data.user,
-        token: action.payload.data.token,
+        user: action.payload.user,
+        token: action.payload.token,
         isLoggedIn: true
             };
     default: 

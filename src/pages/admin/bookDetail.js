@@ -52,14 +52,13 @@ const BookDetailPage = (props) => {
   }
 
   useEffect(() => {
-    if (match && match.params.id) {
+    if (match && match.params&&match.params.id) {
       getBookById(match.params.id);
       setId(match.params.id);
     }
   }, [match, getBookById]);
   useEffect(() => {
     if (book) {
-      getCategory();
       setStatus(book.status_id);
       setKategori(book.kategori_id);
       setTitle(book.title);
@@ -70,7 +69,8 @@ const BookDetailPage = (props) => {
       setBerat(book.berat);
       setDesc(book.description);
       setVariant(book.status_id === 1 ? "info" : "warning");
-    }
+    };
+    getCategory();
   }, [book]);
   useEffect(() => {
     if (!(user && user.user && user.user.role_id === 1 && access_token)) {

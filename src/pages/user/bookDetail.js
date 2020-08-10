@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, FormControl } from "react-bootstrap";
 import numeral from "numeral";
 import { connect } from "react-redux";
-import axios from "axios";
 import { ENDPOINT, access_token } from "../../utils/globals";
 import { getBookById, addOrder } from "../../store/actions";
 import Header from "../../components/header";
@@ -23,58 +22,29 @@ const mapStateToProps = (state) => {
 };
 
 const BookDetailPage = (props) => {
-  console.log(props, "Ini props dari page BookDetailPage");
-  const [edit, setEdit] = useState(false);
-  const [id, setId] = useState(0);
-  const [status_id, setStatus] = useState(0);
-  const [kategori_id, setKategori] = useState(0);
-  const [title, setTitle] = useState("");
-  const [harga, setHarga] = useState("");
-  const [author, setAuthor] = useState("");
-  const [image_url, setImage] = useState("");
-  const [no_isbn, setNoisbn] = useState("");
-  const [berat, setBerat] = useState(0);
-  const [description, setDesc] = useState("");
   const [qty, setQty] = useState(1);
-  //   const [data, setData] = useState({});
-  const [dataKategori, setDataKategori] = useState([]);
+  const [data, setData] = useState({});
   const [variant, setVariant] = useState("");
   const { book, user, match, history, getBookById } = props;
 
-  async function getCategory() {
-    const request = await axios.get(`${ENDPOINT}kategori`);
-    setDataKategori(request.data.data.rows);
-  }
-
   useEffect(() => {
-    if (match && match.params.id) {
+    if (match && match.params && match.params.id) {
       getBookById(match.params.id);
-      setId(match.params.id);
     }
   }, [match, getBookById]);
   useEffect(() => {
     if (book) {
-      getCategory();
-      setStatus(book.status_id);
-      setKategori(book.kategori_id);
-      setTitle(book.title);
-      setHarga(book.harga);
-      setAuthor(book.author);
-      setImage(book.image_url);
-      setNoisbn(book.no_isbn);
-      setBerat(book.berat);
-      setDesc(book.description);
       setVariant(book.status_id === 1 ? "info" : "warning");
     }
   }, [book]);
-    useEffect(() => {
-      if (!(user && user.user && user.user.role_id === 2 && access_token)) {
-        history.push("/login");
-      }
-    }, [user]);
+  useEffect(() => {
+    if (!(user && user.user && user.user.role_id === 2 && access_token)) {
+      history.push("/login");
+    }
+  }, [user]);
 
   const handleOrder = () => {
-    const data = {
+    setData({
       user_id: user.user.id,
       total: book.harga * qty,
       orders_detail: [
@@ -86,11 +56,12 @@ const BookDetailPage = (props) => {
           total: book.harga * qty,
         },
       ],
-    };
+    });
     addOrder(data);
   };
   return (
     <div>
+      <Header />
       <div className="container">
         <Card className="pl-o p-5">
           <div className="row">
@@ -135,7 +106,11 @@ const BookDetailPage = (props) => {
               </p>
             </div>
           </div>
-          <input/>
+          <FormControl
+            type="number"
+            value={qty}
+            onChange={(e) => setQty(e.target.value)}
+          />
           <div>
             <Button variant="danger" onClick={() => handleOrder()}>
               Order
@@ -143,6 +118,7 @@ const BookDetailPage = (props) => {
           </div>
         </Card>
       </div>
+      <Footer />
     </div>
   );
 };

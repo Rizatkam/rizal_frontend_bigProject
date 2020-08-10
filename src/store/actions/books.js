@@ -12,7 +12,7 @@ export const addBook = (data) => {
     request.then((response) => {
       dispatch({
         type: actionsTypes.ADD_BOOK,
-        payload: response.data,
+        payload: response.data.data,
       });
     });
   };

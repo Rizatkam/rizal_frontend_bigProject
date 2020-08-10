@@ -15,7 +15,7 @@ export const registerUser = (name,email, password) => {
             console.log(response,"ini response Register");
             return dispatch({
                 type:actionsTypes.ADD_USER,
-                payload:response.data
+                payload:response.data.data
             })
         })
     }
@@ -33,7 +33,7 @@ export const loginUser = (email, password) => {
             window.localStorage.setItem("token",response.data.data.token);
             return dispatch({
                 type:actionsTypes.LOGIN_USER,
-                payload:response.data
+                payload:response.data.data
             })
         })
     }

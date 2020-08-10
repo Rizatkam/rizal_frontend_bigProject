@@ -22,17 +22,15 @@ const mapStateToProps = (state) => {
 const BookPage = (props) => {
   const [dataKategori, setDataKategori] = useState([]);
   const [kategori_id, setKategori] = useState("");
-  const { getListBook, user, match, history } = props;
+  const { getListBook, user, books, history } = props;
   async function getCategory() {
     const request = await axios.get(`${ENDPOINT}kategori`);
     setDataKategori(request.data.data.rows);
   }
   useEffect(() => {
-    if (match && match.params) {
-      getListBook({ kategori_id: kategori_id });
-      getCategory();
-    }
-  }, [match, getListBook, kategori_id]);
+    getListBook({ kategori_id: kategori_id });
+    getCategory();
+  }, [getListBook,kategori_id]);
   useEffect(() => {
     if (!(user && user.user && user.user.role_id === 2 && access_token)) {
       history.push("/login");
@@ -41,9 +39,10 @@ const BookPage = (props) => {
 
   return (
     <div className="App-header">
-        <div className="container m-3">
-          <h2>CILSY+</h2>
-        </div>
+      <Header />
+      <div className="container m-3">
+        <h2>CILSY+</h2>
+      </div>
       <Form.Row>
         <Form.Group controlId="formGridCategory">
           <Form.Label>Category</Form.Label>
@@ -64,10 +63,10 @@ const BookPage = (props) => {
       </Form.Row>
       <div className="container">
         <div className="row">
-          {props.books &&
-            props.books.map((val, key) => <Book key={key} book={val} />)}
+          {books && books.map((val, key) => <Book key={key} book={val} />)}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

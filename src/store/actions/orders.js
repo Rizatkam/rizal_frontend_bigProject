@@ -24,7 +24,12 @@ export const addOrder = (data) => {
   };
 };
 export const getListOrder = (params) => {
-  const request = axios.get(`${ENDPOINT}orders`, { params });
+  const request = axios.get(`${ENDPOINT}orders`, {
+    headers: {
+      authorization: `${access_token}`,
+    },
+    params,
+  });
   return (dispatch) =>
     request.then((response) => {
       return dispatch({
@@ -35,8 +40,12 @@ export const getListOrder = (params) => {
 };
 
 export const getOrderById = (id, params) => {
-  const request = axios.get(`${ENDPOINT}orders/${id}`, { params });
-
+  const request = axios.get(`${ENDPOINT}orders/${id}`, {
+    headers: {
+      authorization: `${access_token}`,
+    },
+    params,
+  });
   return (dispatch) =>
     request.then((response) => {
       return dispatch({
