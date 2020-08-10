@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 import axios from "axios";
 import { ENDPOINT, access_token } from "../../utils/globals";
 import { addBook } from "../../store/actions";
+import Header from "../../components/headerAdmin";
 
 const mapStateToProps = (state) => {
   console.log(state, "Ini state dari page addBook mapStateToProps");
@@ -61,14 +62,15 @@ const AddBook = (props) => {
   useEffect(() => {
     // if (!(user && user.user && user.user.role_id === 1 && access_token)) {
     //   history.push("/login");
-    // };
-    getCategory()
-  }, [user]);
+    // }
+    getCategory();
+  }, [history, user]);
 
   return (
     <div className="main-wrapper">
       {gotoBook ? <Redirect to="/admin/book" /> : ""}
       <div>
+        <Header/>
         <Form onSubmit={(e) => onSubmitAddBook(e)}>
           <Form.Row>
             <Form.Group controlId="formGridTitle">

@@ -4,7 +4,7 @@ import numeral from "numeral";
 import { connect } from "react-redux";
 import { access_token } from "../../utils/globals";
 import { getOrderById } from "../../store/actions";
-import Header from "../../components/header";
+import Header from "../../components/headerUser";
 import Footer from "../../components/footer";
 
 const mapDispatchToProps = (dispatch) => {

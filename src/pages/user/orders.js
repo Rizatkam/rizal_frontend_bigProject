@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { access_token } from "../../utils/globals";
 import { getListOrder} from "../../store/actions";
-import Header from "../../components/header";
+import Header from "../../components/headerUser";
 import Footer from "../../components/footer";
 import Order from "../../components/orderUser"
 

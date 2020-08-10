@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { ENDPOINT, access_token } from "../../utils/globals";
 import { getBookById, updateBook, deleteBook } from "../../store/actions";
+import Header from "../../components/headerAdmin";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -97,6 +98,7 @@ const BookDetailPage = (props) => {
   };
   return (
       <div>
+        <Header/>
         <div className="container">
           <Card className="pl-o p-5">
             <div className="row">

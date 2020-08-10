@@ -5,6 +5,7 @@ import axios from "axios";
 import { ENDPOINT, access_token } from "../../utils/globals";
 import { connect } from "react-redux";
 import { getListBook } from "../../store/actions";
+import Header from "../../components/headerAdmin";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -33,12 +34,12 @@ const BookPage = (props) => {
     if (!(user && user.user && user.user.role_id === 1 && access_token)) {
       history.push("/login");
     }
-  }, [user]);
+  }, [history,user]);
 
   return (
     <div className="App-header">
       <div className="container m-3">
-        <h2>CILSY+</h2>
+        <Header/>
       </div>
       <Form.Row>
         <Form.Group controlId="formGridCategory">
