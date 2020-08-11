@@ -30,12 +30,12 @@ const BookPage = (props) => {
   useEffect(() => {
     getListBook({ kategori_id: kategori_id });
     getCategory();
-  }, [getListBook,kategori_id]);
+  }, [getListBook, kategori_id]);
   useEffect(() => {
     if (!(user && user.user && user.user.role_id === 2 && access_token)) {
       history.push("/login");
     }
-  }, [user]);
+  }, [user, history]);
 
   return (
     <div className="App-header">

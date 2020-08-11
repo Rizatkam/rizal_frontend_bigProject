@@ -60,9 +60,9 @@ const AddBook = (props) => {
     setDataKategori(request.data.data.rows);
   }
   useEffect(() => {
-    // if (!(user && user.user && user.user.role_id === 1 && access_token)) {
-    //   history.push("/login");
-    // }
+    if (!(user && user.user && user.user.role_id === 1 && access_token)) {
+      history.push("/login");
+    }
     getCategory();
   }, [history, user]);
 

@@ -26,37 +26,39 @@ const BookDetailPage = (props) => {
   const [data, setData] = useState({});
   const [variant, setVariant] = useState("");
   const { book, user, match, history, getBookById } = props;
+  console.log(props, "ini props dari bookDetail");
 
   useEffect(() => {
     if (match && match.params && match.params.id) {
       getBookById(match.params.id);
+      setData({
+        user_id: user.user.id,
+        total: book.harga * qty,
+        orders_detail: [
+          {
+            buku_id: book.id,
+            title: book.title,
+            quantity: qty,
+            harga: book.harga,
+            total: book.harga * qty,
+          },
+        ],
+      });
     }
-  }, [match, getBookById]);
+  }, [qty, match, getBookById]);
   useEffect(() => {
     if (book) {
       setVariant(book.status_id === 1 ? "info" : "warning");
     }
   }, [book]);
+
   useEffect(() => {
     if (!(user && user.user && user.user.role_id === 2 && access_token)) {
       history.push("/login");
     }
-  }, [user]);
+  }, [history, user]);
 
   const handleOrder = () => {
-    setData({
-      user_id: user.user.id,
-      total: book.harga * qty,
-      orders_detail: [
-        {
-          buku_id: book.id,
-          title: book.title,
-          quantity: qty,
-          harga: book.harga,
-          total: book.harga * qty,
-        },
-      ],
-    });
     addOrder(data);
   };
   return (
@@ -106,11 +108,7 @@ const BookDetailPage = (props) => {
               </p>
             </div>
           </div>
-          <FormControl
-            type="number"
-            value={qty}
-            onChange={(e) => setQty(e.target.value)}
-          />
+          <FormControl type="number" onChange={(e) => setQty(e.target.value)} />
           <div>
             <Button variant="danger" onClick={() => handleOrder()}>
               Order

@@ -5,6 +5,7 @@ import { getListOrder } from "../../store/actions";
 import Footer from "../../components/footer";
 import Order from "../../components/orderAdmin";
 import Header from "../../components/headerAdmin";
+import { Table } from "react-bootstrap";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -21,15 +22,31 @@ const mapStateToProps = (state) => {
 const OrderPage = (props) => {
   const { user, orders, history, getListOrder } = props;
   useEffect(() => {
-    // if (!(user && user.user && user.user.role_id === 1 && access_token)) {
-    //   history.push("/login");
-    // }
+    if (!(user && user.user && user.user.role_id === 1 && access_token)) {
+      history.push("/login");
+    }
     getListOrder();
-  }, [user, getListOrder]);
+  }, [user, history, getListOrder]);
   return (
     <div>
       <Header />
-      {orders && orders.map((val, key) => <Order key={key} order={val} />)}
+      <Table striped bordered hover variant="dark">
+        <thead>
+          <tr>
+            <th>User Id</th>
+            <th>Nama Pelanggan</th>
+            <th>Order Number</th>
+            <th>Title</th>
+            <th>Qty.</th>
+            <th>Price</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {orders && orders.map((val, key) => <Order key={key} order={val} />)}
+        </tbody>
+      </Table>
       <Footer />
     </div>
   );
