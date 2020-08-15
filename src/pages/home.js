@@ -6,7 +6,7 @@ import { Container, Row, Col, Carousel } from "react-bootstrap";
 import { connect } from "react-redux";
 import { getListBook } from "../store/actions";
 import { LinkContainer } from "react-router-bootstrap";
-import { ENDPOINT } from "../utils/globals";
+import { ENDPOINT, role } from "../utils/globals";
 
 const mapStateToProps = (state) => {
   return {
@@ -21,11 +21,16 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const Home = (props) => {
-  const { books } = props;
+  const { books, getListBook, history } = props;
 
   useEffect(() => {
-    props.getListBook();
-  }, []);
+    if (role) {
+      role === 1 ? history.push("/admin/book") : history.push("/user/book");
+    } else {
+      history.push("/");
+    }
+    getListBook();
+  }, [history, getListBook]);
 
   return (
     <Container>

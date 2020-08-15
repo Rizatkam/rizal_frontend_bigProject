@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Table } from "react-bootstrap";
 import numeral from "numeral";
 import { connect } from "react-redux";
-import { access_token } from "../../utils/globals";
+import { role } from "../../utils/globals";
 import { getOrderById } from "../../store/actions";
 import Header from "../../components/headerUser";
 import Footer from "../../components/footer";
@@ -14,29 +14,23 @@ const mapDispatchToProps = (dispatch) => {
 };
 const mapStateToProps = (state) => {
   return {
-    user: state.users,
     order: state.orders.order,
   };
 };
 const OrderDetailPage = (props) => {
   console.log(props, "ini props order detail");
-  // const [id, setId] = useState(0);
-  // const [params, setParams] = useState({});
-  const { user, order, match, history, getOrderById } = props;
+  const { order, match, history, getOrderById } = props;
   useEffect(() => {
-    // if (match && match.params && match.params.id) {
-    //   setId(match.params.id);
-    // }
-    // if (user && user.user && user.user.id) {
-    //   setParams({ user_id: user.user.id });
-    // }
-    getOrderById(match.params.id, { user_id: 8 });
-  }, []);
-  useEffect(() => {
-    if (!(user && user.user && user.user.role_id === 2 && access_token)) {
-      history.push("/login");
+    if (match && match.params && match.params.id) {
+      getOrderById(match.params.id);
     }
-  }, [user, history]);
+  }, [match, getOrderById]);
+  useEffect(() => {
+    if (!(role === 2)) {
+      history.push("/login");
+      window.localStorage.removeItem("token");
+    }
+  }, [history]);
   return (
     <div>
       <Header />

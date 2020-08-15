@@ -1,6 +1,6 @@
 import * as actionsTypes from "./actionsTypes";
 import axios from "axios";
-import { ENDPOINT, access_token } from "../../utils/globals";
+import { ENDPOINT, access_token, uid } from "../../utils/globals";
 
 export const addOrder = (data) => {
   console.log(data, "ini data dari action order");
@@ -23,12 +23,11 @@ export const addOrder = (data) => {
       });
   };
 };
-export const getListOrder = (params) => {
-  const request = axios.get(`${ENDPOINT}orders`, {
+export const getListOrder = () => {
+  const request = axios.get(`${ENDPOINT}orders?user_id=${uid}`, {
     headers: {
       authorization: `${access_token}`,
     },
-    params,
   });
   return (dispatch) =>
     request.then((response) => {
@@ -39,12 +38,11 @@ export const getListOrder = (params) => {
     });
 };
 
-export const getOrderById = (id, params) => {
-  const request = axios.get(`${ENDPOINT}orders/${id}`, {
+export const getOrderById = (id) => {
+  const request = axios.get(`${ENDPOINT}orders/${id}?user_id=${uid}`, {
     headers: {
       authorization: `${access_token}`,
     },
-    params,
   });
   return (dispatch) =>
     request.then((response) => {

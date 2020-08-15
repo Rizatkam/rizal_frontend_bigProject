@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { loginUser } from "../store/actions";
 import { Redirect } from "react-router-dom";
+import { role } from "../utils/globals";
 
 const mapStateToProps = (state) => {
   console.log(state, "Ini state dari page Login mapStateToProps");
@@ -23,9 +24,15 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
   const [gotoAdmin, setGotoAdmin] = useState(false);
   const [gotoUser, setGotoUser] = useState(false);
-  const { loginUser, user } = props;
+  const { loginUser, user, history } = props;
   loginUser(email, password);
   console.log(email, password, "ini email dan password dari page Login.");
+
+  useEffect(() => {
+    if (role) {
+      role === 1 ? history.push("/admin/book") : history.push("/user/book");
+    }
+  }, [history]);
 
   const onSubmitSignin = (e) => {
     e.preventDefault();

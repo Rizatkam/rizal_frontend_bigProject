@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, Button, FormControl } from "react-bootstrap";
 import numeral from "numeral";
 import { connect } from "react-redux";
-import { ENDPOINT, access_token } from "../../utils/globals";
+import { ENDPOINT, role, uid } from "../../utils/globals";
 import { getBookById, addOrder } from "../../store/actions";
 import Header from "../../components/headerUser";
 import Footer from "../../components/footer";
@@ -16,7 +16,6 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     book: state.books.book,
-    user: state.users,
     order: state.orders.order,
   };
 };
@@ -25,14 +24,14 @@ const BookDetailPage = (props) => {
   const [qty, setQty] = useState(1);
   const [data, setData] = useState({});
   const [variant, setVariant] = useState("");
-  const { book, user, match, history, getBookById } = props;
+  const { book, match, history, getBookById } = props;
   console.log(props, "ini props dari bookDetail");
 
   useEffect(() => {
     if (match && match.params && match.params.id) {
       getBookById(match.params.id);
       setData({
-        user_id: user.user.id,
+        user_id: uid,
         total: book.harga * qty,
         orders_detail: [
           {
@@ -53,10 +52,11 @@ const BookDetailPage = (props) => {
   }, [book]);
 
   useEffect(() => {
-    if (!(user && user.user && user.user.role_id === 2 && access_token)) {
+    if (!(role === 2)) {
       history.push("/login");
+      window.localStorage.removeItem("token");
     }
-  }, [history, user]);
+  }, [history]);
 
   const handleOrder = () => {
     addOrder(data);

@@ -3,11 +3,12 @@ import { Form, Button, Col } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { registerUser } from "../store/actions";
+import { role } from "../utils/globals";
 
 const mapStateToProps = (state) => {
-  console.log(state,"Ini state dari page Register mapStateToProps")
+  console.log(state, "Ini state dari page Register mapStateToProps");
   return {
-    user: state.users
+    user: state.users,
   };
 };
 
@@ -19,7 +20,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const Register = (props) => {
-  console.log(props,"ini props dari Register.")
+  console.log(props, "ini props dari Register.");
   const [goto, setGoto] = useState(false);
   const [email, setEmail] = useState("");
   const [warningEmail, setWarningEmail] = useState("");
@@ -29,14 +30,11 @@ const Register = (props) => {
   const [warningRetypePassword, setWarningRetypePassword] = useState("");
   const [name, setName] = useState("");
   const [warningName, setWarningName] = useState("");
-  
+  const { registerUser, history } = props;
+
   const onSubmitSignup = (e) => {
     e.preventDefault();
-    props.registerUser(
-      name,
-      email,
-      password,
-    );
+    registerUser(name, email, password);
     if (
       email.includes("@") &&
       email.length !== 0 &&
@@ -52,6 +50,11 @@ const Register = (props) => {
       alert("Input Data tidak Valid! Mohon periksa kembali!");
     }
   };
+  useEffect(() => {
+    if (role) {
+      role === 1 ? history.push("/admin/book") : history.push("/user/book");
+    }
+  }, [history]);
   useEffect(() => {
     if (!email.includes("@")) setWarningEmail("Ini mah bukan email, Broh!");
     else if (email.length === 0) setWarningEmail("Harus diisi ya!");
