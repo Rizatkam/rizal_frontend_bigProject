@@ -3,7 +3,7 @@ import { Card, Button, Form } from "react-bootstrap";
 import numeral from "numeral";
 import { connect } from "react-redux";
 import axios from "axios";
-import { ENDPOINT, access_token } from "../../utils/globals";
+import { ENDPOINT, token } from "../../utils/globals";
 import { getBookById, updateBook, deleteBook } from "../../store/actions";
 import Header from "../../components/headerAdmin";
 
@@ -74,7 +74,7 @@ const BookDetailPage = (props) => {
     getCategory();
   }, [book]);
   useEffect(() => {
-    if (!(user && user.user && user.user.role_id === 1 && access_token)) {
+    if (!(user && user.user && user.user.role_id === 1 && token)) {
       history.push("/login");
     }
   }, [user, history]);

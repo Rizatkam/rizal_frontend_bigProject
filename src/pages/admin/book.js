@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import Book from "../../components/bookAdmin";
 import axios from "axios";
-import { ENDPOINT, access_token } from "../../utils/globals";
+import { ENDPOINT, token } from "../../utils/globals";
 import { connect } from "react-redux";
 import { getListBook } from "../../store/actions";
 import Header from "../../components/headerAdmin";
@@ -31,15 +31,15 @@ const BookPage = (props) => {
     getCategory();
   }, [getListBook, kategori_id]);
   useEffect(() => {
-    if (!(user && user.user && user.user.role_id === 1 && access_token)) {
+    if (!(user && user.user && user.user.role_id === 1 && token)) {
       history.push("/login");
     }
-  }, [history,user]);
+  }, [history, user]);
 
   return (
     <div className="App-header">
       <div className="container m-3">
-        <Header/>
+        <Header />
       </div>
       <Form.Row>
         <Form.Group controlId="formGridCategory">

@@ -1,12 +1,12 @@
 import * as actionsTypes from "./actionsTypes";
 import axios from "axios";
-import { ENDPOINT, access_token, uid } from "../../utils/globals";
+import { ENDPOINT, token } from "../../utils/globals";
 
 export const addOrder = (data) => {
   console.log(data, "ini data dari action order");
   const request = axios.post(`${ENDPOINT}orders`, data, {
     headers: {
-      authorization: `${access_token}`,
+      authorization: `${token}`,
     },
   });
   return (dispatch) => {
@@ -23,10 +23,10 @@ export const addOrder = (data) => {
       });
   };
 };
-export const getListOrder = () => {
+export const getListOrder = (uid) => {
   const request = axios.get(`${ENDPOINT}orders?user_id=${uid}`, {
     headers: {
-      authorization: `${access_token}`,
+      authorization: `${token}`,
     },
   });
   return (dispatch) =>
@@ -38,10 +38,10 @@ export const getListOrder = () => {
     });
 };
 
-export const getOrderById = (id) => {
+export const getOrderById = (id, uid) => {
   const request = axios.get(`${ENDPOINT}orders/${id}?user_id=${uid}`, {
     headers: {
-      authorization: `${access_token}`,
+      authorization: `${token}`,
     },
   });
   return (dispatch) =>

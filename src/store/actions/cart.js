@@ -1,11 +1,11 @@
 import * as actionsTypes from "./actionsTypes";
 import axios from "axios";
-import { ENDPOINT, access_token, uid } from "../../utils/globals";
+import { ENDPOINT, token } from "../../utils/globals";
 
 export const addCart = (data) => {
   const request = axios.post(`${ENDPOINT}cart`, data, {
     headers: {
-      authorization: `${access_token}`,
+      authorization: `${token}`,
     },
   });
   return (dispatch) => {
@@ -17,7 +17,7 @@ export const addCart = (data) => {
     });
   };
 };
-export const getListCart = () => {
+export const getListCart = (uid) => {
   const request = axios.get(`${ENDPOINT}cart?user_id=${uid}`);
   return (dispatch) =>
     request.then((response) => {
@@ -28,7 +28,7 @@ export const getListCart = () => {
     });
 };
 
-export const getCartById = (id) => {
+export const getCartById = (id, uid) => {
   const request = axios.get(`${ENDPOINT}cart/${id}?user_id=${uid}`);
 
   return (dispatch) =>
@@ -44,7 +44,7 @@ export const getCartById = (id) => {
 export const updateCart = (id, data) => {
   const request = axios.put(`${ENDPOINT}cart/${id}`, data, {
     headers: {
-      authorization: `${access_token}`,
+      authorization: `${token}`,
     },
   });
 
@@ -61,7 +61,7 @@ export const updateCart = (id, data) => {
 export const deleteCart = (id) => {
   const request = axios.delete(`${ENDPOINT}cart/${id}`, {
     headers: {
-      authorization: `${access_token}`,
+      authorization: `${token}`,
     },
   });
 

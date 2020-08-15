@@ -1,11 +1,11 @@
 import * as actionsTypes from "./actionsTypes";
 import axios from "axios";
-import { ENDPOINT, access_token } from "../../utils/globals";
+import { ENDPOINT, token } from "../../utils/globals";
 
 export const addCategory = (name) => {
   const request = axios.post(`${ENDPOINT}kategori`, name, {
     headers: {
-      authorization: `${access_token}`,
+      authorization: `${token}`,
     },
   });
   return (dispatch) => {
@@ -44,7 +44,7 @@ export const getCategoryById = (id) => {
 export const updateCategory = (id, name) => {
   const request = axios.put(`${ENDPOINT}kategori/${id}`, name, {
     headers: {
-      authorization: `${access_token}`,
+      authorization: `${token}`,
     },
   });
 
@@ -61,7 +61,7 @@ export const updateCategory = (id, name) => {
 export const deleteCategory = (id) => {
   const request = axios.delete(`${ENDPOINT}kategori/${id}`, {
     headers: {
-      authorization: `${access_token}`,
+      authorization: `${token}`,
     },
   });
 

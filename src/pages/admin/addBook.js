@@ -3,7 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
-import { ENDPOINT, access_token } from "../../utils/globals";
+import { ENDPOINT, token } from "../../utils/globals";
 import { addBook } from "../../store/actions";
 import Header from "../../components/headerAdmin";
 
@@ -60,7 +60,7 @@ const AddBook = (props) => {
     setDataKategori(request.data.data.rows);
   }
   useEffect(() => {
-    if (!(user && user.user && user.user.role_id === 1 && access_token)) {
+    if (!(user && user.user && user.user.role_id === 1 && token)) {
       history.push("/login");
     }
     getCategory();
@@ -70,7 +70,7 @@ const AddBook = (props) => {
     <div className="main-wrapper">
       {gotoBook ? <Redirect to="/admin/book" /> : ""}
       <div>
-        <Header/>
+        <Header />
         <Form onSubmit={(e) => onSubmitAddBook(e)}>
           <Form.Row>
             <Form.Group controlId="formGridTitle">

@@ -1,11 +1,11 @@
 import * as actionsTypes from "./actionsTypes";
 import axios from "axios";
-import { ENDPOINT, access_token } from "../../utils/globals";
+import { ENDPOINT, token } from "../../utils/globals";
 
 export const addBook = (data) => {
   const request = axios.post(`${ENDPOINT}buku`, data, {
     headers: {
-      authorization: `${access_token}`,
+      authorization: `${token}`,
     },
   });
   return (dispatch) => {
@@ -44,7 +44,7 @@ export const getBookById = (id) => {
 export const updateBook = (id, data) => {
   const request = axios.put(`${ENDPOINT}buku/${id}`, data, {
     headers: {
-      authorization: `${access_token}`,
+      authorization: `${token}`,
     },
   });
 
@@ -61,7 +61,7 @@ export const updateBook = (id, data) => {
 export const deleteBook = (id) => {
   const request = axios.delete(`${ENDPOINT}buku/${id}`, {
     headers: {
-      authorization: `${access_token}`,
+      authorization: `${token}`,
     },
   });
 

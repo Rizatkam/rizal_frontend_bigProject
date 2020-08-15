@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
+import JwtDecode from "jwt-decode";
 import { loginUser } from "../store/actions";
 import { Redirect } from "react-router-dom";
-import { role } from "../utils/globals";
+import { token } from "../utils/globals";
 
 const mapStateToProps = (state) => {
   console.log(state, "Ini state dari page Login mapStateToProps");
@@ -29,8 +30,10 @@ const Login = (props) => {
   console.log(email, password, "ini email dan password dari page Login.");
 
   useEffect(() => {
-    if (role) {
-      role === 1 ? history.push("/admin/book") : history.push("/user/book");
+    if (token && JwtDecode(token) && JwtDecode(token).role_id === 1) {
+      history.push("/admin/book");
+    } else if (token && JwtDecode(token) && JwtDecode(token).role_id === 2) {
+      history.push("/user/book");
     }
   }, [history]);
 

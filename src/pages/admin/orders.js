@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { access_token } from "../../utils/globals";
+import { token } from "../../utils/globals";
 import { getListOrder } from "../../store/actions";
 import Footer from "../../components/footer";
 import Order from "../../components/orderAdmin";
@@ -22,7 +22,7 @@ const mapStateToProps = (state) => {
 const OrderPage = (props) => {
   const { user, orders, history, getListOrder } = props;
   useEffect(() => {
-    if (!(user && user.user && user.user.role_id === 1 && access_token)) {
+    if (!(user && user.user && user.user.role_id === 1 && token)) {
       history.push("/login");
     }
     getListOrder();
