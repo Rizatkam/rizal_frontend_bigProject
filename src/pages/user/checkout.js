@@ -81,7 +81,7 @@ const Checkout = (props) => {
 
   return (
     <div className="main-wrapper">
-      {goto ? <Redirect to="/user/book" /> : ""}
+      {goto ? <Redirect to="/user/order" /> : ""}
       <div>
         <Header />
         <Table striped bordered hover variant="dark">
