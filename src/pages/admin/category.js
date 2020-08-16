@@ -38,15 +38,20 @@ const Categories = (props) => {
     deleteCategory,
     addCategory,
   } = props;
-  const handleUpdate = (id, data) => {
+  const handleUpdate = (id, data, e) => {
     updateCategory(id, data);
+    alert("Category has been updated!");
+    e.preventDefault();
   };
-  const handleDelete = (id) => {
+  const handleDelete = (id, e) => {
     deleteCategory(id);
+    alert("Category has been deleted!");
+    e.preventDefault();
   };
   const onSubmitAddCategory = (e) => {
-    console.log(name, "ini nama dari onSubmit");
     addCategory(name);
+    alert("Category has been added!");
+    e.preventDefault();
   };
   useEffect(() => {
     if (!(token && JwtDecode(token) && JwtDecode(token).role_id === 1)) {

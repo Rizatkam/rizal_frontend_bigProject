@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import numeral from "numeral";
 
 const Checkout = ({ cart, doUpdate, doDelete }) => {
   const [quantity, setQty] = useState(0);
@@ -17,13 +18,12 @@ const Checkout = ({ cart, doUpdate, doDelete }) => {
   };
   return (
     <tr>
-      {console.log(cart, "ini cart di return")}
       <td>{cart && cart.title}</td>
       <td>
         <input value={quantity} onChange={(e) => setQty(e.target.value)} />
       </td>
-      <td>{cart && cart.harga}</td>
-      <td>{cart && cart.total}</td>
+      <td>{`Rp ${numeral(cart && cart.harga).format("0,0")}`}</td>
+      <td>{`Rp ${numeral(cart && cart.total).format("0,0")}`}</td>
       <td>
         <Button
           variant="success"

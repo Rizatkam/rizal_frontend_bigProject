@@ -35,7 +35,7 @@ const AddBook = (props) => {
   const [gotoBook, setGotoBook] = useState(false);
   const { addBook, history } = props;
 
-  const onSubmitAddBook = async (e) => {
+  const onSubmitAddBook = (e) => {
     e.preventDefault();
     const data = new FormData();
     data.append("status_id", status_id);

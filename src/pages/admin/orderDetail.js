@@ -23,7 +23,7 @@ const OrderDetailPage = (props) => {
   const { order, match, history, getOrderById } = props;
   useEffect(() => {
     if (match && match.params && match.params.id) {
-      getOrderById(match.params.id, JwtDecode(token) && JwtDecode(token).id);
+      getOrderById(match.params.id);
     }
   }, [match, getOrderById]);
   useEffect(() => {

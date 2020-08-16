@@ -86,9 +86,12 @@ const BookDetailPage = (props) => {
     data.append("berat", berat);
     data.append("description", description);
     updateBook(id, data);
+    alert("Book is updated!");
   };
-  const handleDelete = () => {
+  const handleDelete = (e) => {
+    e.preventDefault();
     deleteBook(id);
+    alert("Book has been deleted!");
   };
   return (
     <div>
