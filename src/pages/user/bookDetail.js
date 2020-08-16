@@ -35,8 +35,8 @@ const BookDetailPage = (props) => {
         buku_id: book.id,
         title: book.title,
         harga: book.harga,
-        quantity: qty,
-        total: book.harga * qty,
+        quantity: parseInt(qty),
+        total: book.harga * parseInt(qty),
       });
     }
   }, [qty, match, getBookById]);
@@ -54,6 +54,7 @@ const BookDetailPage = (props) => {
   }, [history]);
 
   const AddToCart = () => {
+    console.log(data, "ini data Add to Cart");
     addCart(data);
   };
   return (
@@ -103,10 +104,10 @@ const BookDetailPage = (props) => {
               </p>
             </div>
           </div>
-          <FormControl type="number" onChange={(e) => setQty(e.target.value)} />
+          <input type="number" onChange={(e) => setQty(e.target.value)} />
           <div>
             <Button variant="danger" onClick={() => AddToCart()}>
-              Order
+              Add to Cart
             </Button>
           </div>
         </Card>

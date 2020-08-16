@@ -13,6 +13,7 @@ import UserBook from "./pages/user/book";
 import UserBookDetail from "./pages/user/bookDetail";
 import UserOrder from "./pages/user/orders";
 import UserOrderDetail from "./pages/user/orderDetail";
+import UserCart from "./pages/user/checkout";
 
 import Home from "./pages/home";
 import Login from "./pages/login";
@@ -29,6 +30,7 @@ function App() {
         <Route path="/user/book/:id" component={UserBookDetail} />
         <Route exact path="/user/book" component={UserBook} />
         <Route exact path="/user/order" component={UserOrder} />
+        <Route exact path="/user/cart" component={UserCart} />
         <Route path="/user/order/:id" component={UserOrderDetail} />
 
         <Route path="/admin/addBook" component={AdminAddBook} />

@@ -16,9 +16,9 @@ import Category from "../../components/category";
 const mapDispatchToProps = (dispatch) => {
   return {
     getListCategory: () => dispatch(getListCategory()),
-    updateCategory: (id, name) => dispatch(updateCategory(id, name)), //Masih Gagal
+    updateCategory: (id, data) => dispatch(updateCategory(id, data)), //Masih Gagal
     deleteCategory: (id) => dispatch(deleteCategory(id)),
-    addCategory: (name) => dispatch(addCategory(name)), //Masih Gagal
+    addCategory: (name) => dispatch(addCategory(name)),
   };
 };
 const mapStateToProps = (state) => {
@@ -38,8 +38,8 @@ const Categories = (props) => {
     deleteCategory,
     addCategory,
   } = props;
-  const handleUpdate = (id, nama) => {
-    updateCategory(id, nama);
+  const handleUpdate = (id, data) => {
+    updateCategory(id, data);
   };
   const handleDelete = (id) => {
     deleteCategory(id);
@@ -55,6 +55,11 @@ const Categories = (props) => {
     }
     getListCategory();
   }, [history, getListCategory]);
+  useEffect(() => {
+    if (categories) {
+      setName(categories.name);
+    }
+  }, [categories]);
   return (
     <div>
       <Header />

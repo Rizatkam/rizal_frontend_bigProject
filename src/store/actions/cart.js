@@ -41,12 +41,16 @@ export const getCartById = (id, uid) => {
     });
 };
 
-export const updateCart = (id, data) => {
-  const request = axios.put(`${ENDPOINT}cart/${id}`, data, {
-    headers: {
-      authorization: `${token}`,
-    },
-  });
+export const updateCart = (id, uid, quantity, total) => {
+  const request = axios.put(
+    `${ENDPOINT}cart/${id}`,
+    { quantity, total },
+    {
+      headers: {
+        authorization: `${token}`,
+      },
+    }
+  );
 
   return (dispatch) =>
     request.then((response) => {
@@ -54,11 +58,11 @@ export const updateCart = (id, data) => {
         type: actionsTypes.UPDATE_CART,
         payload: response.data.data,
       });
-      return dispatch(getListCart());
+      return dispatch(getListCart(uid));
     });
 };
 
-export const deleteCart = (id) => {
+export const deleteCart = (id, uid) => {
   const request = axios.delete(`${ENDPOINT}cart/${id}`, {
     headers: {
       authorization: `${token}`,
@@ -72,6 +76,6 @@ export const deleteCart = (id) => {
         type: actionsTypes.DELETE_CART,
         payload: response.data.data,
       });
-      return dispatch(getListCart());
+      return dispatch(getListCart(uid));
     });
 };

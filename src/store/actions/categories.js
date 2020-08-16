@@ -4,11 +4,15 @@ import { ENDPOINT, token } from "../../utils/globals";
 
 export const addCategory = (name) => {
   console.log(name, "ini name dari action Category.");
-  const request = axios.post(`${ENDPOINT}kategori`, name, {
-    headers: {
-      authorization: `${token}`,
-    },
-  });
+  const request = axios.post(
+    `${ENDPOINT}kategori`,
+    { name },
+    {
+      headers: {
+        authorization: `${token}`,
+      },
+    }
+  );
   return (dispatch) => {
     request.then((response) => {
       dispatch({
@@ -42,8 +46,8 @@ export const getCategoryById = (id) => {
     });
 };
 
-export const updateCategory = (id, name) => {
-  const request = axios.put(`${ENDPOINT}kategori/${id}`, name, {
+export const updateCategory = (id, data) => {
+  const request = axios.put(`${ENDPOINT}kategori/${id}`, data, {
     headers: {
       authorization: `${token}`,
     },

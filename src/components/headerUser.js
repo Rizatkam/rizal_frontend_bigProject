@@ -24,6 +24,10 @@ const Header = () => {
             <Nav.Link>Orderan Kamu</Nav.Link>
           </LinkContainer>
 
+          <LinkContainer to="/user/cart" style={{ cursor: "pointer" }}>
+            <Nav.Link>Cart</Nav.Link>
+          </LinkContainer>
+
           <LinkContainer to="/" style={{ cursor: "pointer" }}>
             <Button onClick={logout}>Logout</Button>
           </LinkContainer>
