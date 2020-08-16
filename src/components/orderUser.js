@@ -24,10 +24,7 @@ const Order = ({ order }) => {
               })} */}
       <tr>
         <td>{order && order.id}</td>
-        <td>{order.orders_detail[0].title}</td>
-        <td>{order.orders_detail[0].quantity}</td>
-        <td>{`Rp ${numeral(order.orders_detail[0].harga).format("0,0")}`}</td>
-        <td>{`Rp ${numeral(order.orders_detail[0].total).format("0,0")}`}</td>
+        <td>{`Rp ${numeral(order && order.total).format("0,0")}`}</td>
       </tr>
     </LinkContainer>
   );

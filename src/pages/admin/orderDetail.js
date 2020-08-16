@@ -10,7 +10,7 @@ import Footer from "../../components/footer";
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getOrderById: (id, uid) => dispatch(getOrderById(id, uid)),
+    getOrderById: (id) => dispatch(getOrderById(id)),
   };
 };
 const mapStateToProps = (state) => {
@@ -27,7 +27,7 @@ const OrderDetailPage = (props) => {
     }
   }, [match, getOrderById]);
   useEffect(() => {
-    if (!(token && JwtDecode(token) && JwtDecode(token).role_id === 2)) {
+    if (!(token && JwtDecode(token) && JwtDecode(token).role_id === 1)) {
       window.localStorage.removeItem("token");
       history.push("/login");
     }
@@ -42,6 +42,7 @@ const OrderDetailPage = (props) => {
       <Table striped bordered hover variant="dark">
         <thead>
           <tr>
+            <th>Book ID</th>
             <th>Title</th>
             <th>Qty.</th>
             <th>Price</th>
@@ -54,6 +55,7 @@ const OrderDetailPage = (props) => {
             order.orders_detail.map((val, key) => {
               return (
                 <tr key={key}>
+                  <td>{val && val.buku_id}</td>
                   <td>{val && val.title}</td>
                   <td>{val && val.quantity}</td>
                   <td>{`Rp ${numeral(val && val.harga).format("0,0")}`}</td>

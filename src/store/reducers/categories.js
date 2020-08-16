@@ -11,27 +11,27 @@ const categories = (state = initial, action) => {
     case actionTypes.ADD_CATEGORY:
       return {
         ...state,
-        book: action.payload,
+        category: action.payload,
       };
     case actionTypes.GET_CATEGORY:
       return {
         ...state,
-        books: action.payload,
+        categories: action.payload,
       };
     case actionTypes.GET_CATEGORY_BY_ID:
       return {
         ...state,
-        book: action.payload,
+        category: action.payload,
       };
     case actionTypes.UPDATE_CATEGORY:
       return {
         ...state,
-        book: action.payload,
+        category: action.payload,
       };
     case actionTypes.DELETE_CATEGORY:
       return {
         ...state,
-        book: action.payload,
+        category: action.payload,
       };
     default:
       return state;

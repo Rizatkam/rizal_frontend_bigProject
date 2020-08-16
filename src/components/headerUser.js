@@ -16,6 +16,10 @@ const Header = () => {
             <Nav.Link>Home</Nav.Link>
           </LinkContainer>
 
+          <LinkContainer to="/user/book" style={{ cursor: "pointer" }}>
+            <Nav.Link>Book List</Nav.Link>
+          </LinkContainer>
+
           <LinkContainer to="/user/order" style={{ cursor: "pointer" }}>
             <Nav.Link>Orderan Kamu</Nav.Link>
           </LinkContainer>

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Book from "../../components/bookUser";
 import { Form } from "react-bootstrap";
-import { ENDPOINT, role } from "../../utils/globals";
+import { ENDPOINT, token } from "../../utils/globals";
 import { connect } from "react-redux";
 import axios from "axios";
+import JwtDecode from "jwt-decode";
 import { getListBook } from "../../store/actions";
 import Header from "../../components/headerUser";
 import Footer from "../../components/footer";
@@ -31,9 +32,9 @@ const BookPage = (props) => {
     getCategory();
   }, [getListBook, kategori_id]);
   useEffect(() => {
-    if (!(role === 2)) {
-      history.push("/login");
+    if (!(token && JwtDecode(token) && JwtDecode(token).role_id === 2)) {
       window.localStorage.removeItem("token");
+      history.push("/login");
     }
   }, [history]);
 

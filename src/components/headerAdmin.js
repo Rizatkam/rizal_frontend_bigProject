@@ -20,6 +20,10 @@ const Header = () => {
             <Nav.Link>Add Book</Nav.Link>
           </LinkContainer>
 
+          <LinkContainer to="/admin/category" style={{ cursor: "pointer" }}>
+            <Nav.Link>Edit Category</Nav.Link>
+          </LinkContainer>
+
           <LinkContainer to="/admin/order" style={{ cursor: "pointer" }}>
             <Nav.Link>Order dari Pelanggan</Nav.Link>
           </LinkContainer>

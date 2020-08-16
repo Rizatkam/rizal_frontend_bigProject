@@ -6,12 +6,12 @@ import axios from "axios";
 import { ENDPOINT, token } from "../../utils/globals";
 import { addBook } from "../../store/actions";
 import Header from "../../components/headerAdmin";
+import JwtDecode from "jwt-decode";
 
 const mapStateToProps = (state) => {
   console.log(state, "Ini state dari page addBook mapStateToProps");
   return {
     book: state.books.book,
-    user: state.users,
   };
 };
 
@@ -33,7 +33,7 @@ const AddBook = (props) => {
   const [description, setDesc] = useState("");
   const [dataKategori, setDataKategori] = useState([]);
   const [gotoBook, setGotoBook] = useState(false);
-  const { addBook, user, history } = props;
+  const { addBook, history } = props;
 
   const onSubmitAddBook = async (e) => {
     e.preventDefault();
@@ -60,11 +60,12 @@ const AddBook = (props) => {
     setDataKategori(request.data.data.rows);
   }
   useEffect(() => {
-    if (!(user && user.user && user.user.role_id === 1 && token)) {
+    if (!(token && JwtDecode(token) && JwtDecode(token).role_id === 1)) {
+      window.localStorage.removeItem("token");
       history.push("/login");
     }
     getCategory();
-  }, [history, user]);
+  }, [history]);
 
   return (
     <div className="main-wrapper">

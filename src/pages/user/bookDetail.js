@@ -2,21 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Card, Button, FormControl } from "react-bootstrap";
 import numeral from "numeral";
 import { connect } from "react-redux";
-import { ENDPOINT, role, uid } from "../../utils/globals";
-import { getBookById, addOrder } from "../../store/actions";
+import JwtDecode from "jwt-decode";
+import { ENDPOINT, token } from "../../utils/globals";
+import { getBookById, addCart } from "../../store/actions";
 import Header from "../../components/headerUser";
 import Footer from "../../components/footer";
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getBookById: (id) => dispatch(getBookById(id)),
-    addOrder: (data) => dispatch(addOrder(data)),
+    addCart: (data) => dispatch(addCart(data)),
   };
 };
 const mapStateToProps = (state) => {
   return {
     book: state.books.book,
-    order: state.orders.order,
+    cart: state.cart.item,
   };
 };
 
@@ -24,24 +25,18 @@ const BookDetailPage = (props) => {
   const [qty, setQty] = useState(1);
   const [data, setData] = useState({});
   const [variant, setVariant] = useState("");
-  const { book, match, history, getBookById } = props;
-  console.log(props, "ini props dari bookDetail");
+  const { book, match, history, getBookById, addCart } = props;
 
   useEffect(() => {
     if (match && match.params && match.params.id) {
       getBookById(match.params.id);
       setData({
-        user_id: uid,
+        user_id: JwtDecode(token) && JwtDecode(token).id,
+        buku_id: book.id,
+        title: book.title,
+        harga: book.harga,
+        quantity: qty,
         total: book.harga * qty,
-        orders_detail: [
-          {
-            buku_id: book.id,
-            title: book.title,
-            quantity: qty,
-            harga: book.harga,
-            total: book.harga * qty,
-          },
-        ],
       });
     }
   }, [qty, match, getBookById]);
@@ -52,14 +47,14 @@ const BookDetailPage = (props) => {
   }, [book]);
 
   useEffect(() => {
-    if (!(role === 2)) {
-      history.push("/login");
+    if (!(token && JwtDecode(token) && JwtDecode(token).role_id === 2)) {
       window.localStorage.removeItem("token");
+      history.push("/login");
     }
   }, [history]);
 
-  const handleOrder = () => {
-    addOrder(data);
+  const AddToCart = () => {
+    addCart(data);
   };
   return (
     <div>
@@ -110,7 +105,7 @@ const BookDetailPage = (props) => {
           </div>
           <FormControl type="number" onChange={(e) => setQty(e.target.value)} />
           <div>
-            <Button variant="danger" onClick={() => handleOrder()}>
+            <Button variant="danger" onClick={() => AddToCart()}>
               Order
             </Button>
           </div>

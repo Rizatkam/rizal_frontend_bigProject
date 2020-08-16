@@ -3,7 +3,8 @@ import { Form, Button, Col } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { registerUser } from "../store/actions";
-import { role } from "../utils/globals";
+import { token } from "../utils/globals";
+import JwtDecode from "jwt-decode";
 
 const mapStateToProps = (state) => {
   console.log(state, "Ini state dari page Register mapStateToProps");
@@ -51,8 +52,10 @@ const Register = (props) => {
     }
   };
   useEffect(() => {
-    if (role) {
-      role === 1 ? history.push("/admin/book") : history.push("/user/book");
+    if (token && JwtDecode(token) && JwtDecode(token).role_id === 1) {
+      history.push("/admin/book");
+    } else if (token && JwtDecode(token) && JwtDecode(token).role_id === 2) {
+      history.push("/user/book");
     }
   }, [history]);
   useEffect(() => {

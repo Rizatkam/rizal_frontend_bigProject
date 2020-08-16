@@ -3,6 +3,7 @@ import axios from "axios";
 import { ENDPOINT, token } from "../../utils/globals";
 
 export const addCategory = (name) => {
+  console.log(name, "ini name dari action Category.");
   const request = axios.post(`${ENDPOINT}kategori`, name, {
     headers: {
       authorization: `${token}`,

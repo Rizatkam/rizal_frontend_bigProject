@@ -6,6 +6,8 @@ import AdminAddBook from "./pages/admin/addBook";
 import AdminBook from "./pages/admin/book";
 import AdminBookDetail from "./pages/admin/bookDetail";
 import AdminOrder from "./pages/admin/orders";
+import AdminOrderDetail from "./pages/admin/orderDetail";
+import AdminCategory from "./pages/admin/category";
 
 import UserBook from "./pages/user/book";
 import UserBookDetail from "./pages/user/bookDetail";
@@ -33,6 +35,8 @@ function App() {
         <Route path="/admin/book/:id" component={AdminBookDetail} />
         <Route exact path="/admin/book" component={AdminBook} />
         <Route exact path="/admin/order" component={AdminOrder} />
+        <Route path="/admin/order/:id" component={AdminOrderDetail} />
+        <Route exact path="/admin/category" component={AdminCategory} />
       </Switch>
     </div>
   );

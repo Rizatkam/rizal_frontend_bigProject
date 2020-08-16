@@ -6,6 +6,7 @@ import { ENDPOINT, token } from "../../utils/globals";
 import { connect } from "react-redux";
 import { getListBook } from "../../store/actions";
 import Header from "../../components/headerAdmin";
+import JwtDecode from "jwt-decode";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -15,13 +16,12 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     books: state.books.books,
-    user: state.users,
   };
 };
 const BookPage = (props) => {
   const [dataKategori, setDataKategori] = useState([]);
   const [kategori_id, setKategori] = useState("");
-  const { getListBook, user, books, history } = props;
+  const { getListBook, books, history } = props;
   async function getCategory() {
     const request = await axios.get(`${ENDPOINT}kategori`);
     setDataKategori(request.data.data.rows);
@@ -31,10 +31,11 @@ const BookPage = (props) => {
     getCategory();
   }, [getListBook, kategori_id]);
   useEffect(() => {
-    if (!(user && user.user && user.user.role_id === 1 && token)) {
+    if (!(token && JwtDecode(token) && JwtDecode(token).role_id === 1)) {
+      window.localStorage.removeItem("token");
       history.push("/login");
     }
-  }, [history, user]);
+  }, [history]);
 
   return (
     <div className="App-header">

@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { role } from "../../utils/globals";
 import { getListOrder } from "../../store/actions";
 import Header from "../../components/headerUser";
 import Footer from "../../components/footer";
 import Order from "../../components/orderUser";
 import { Table } from "react-bootstrap";
+import { token } from "../../utils/globals";
+import JwtDecode from "jwt-decode";
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListOrder: (params) => dispatch(getListOrder(params)),
+    getListOrder: (uid) => dispatch(getListOrder(uid)),
   };
 };
 const mapStateToProps = (state) => {
@@ -21,11 +22,11 @@ const mapStateToProps = (state) => {
 const OrderPage = (props) => {
   const { orders, history, getListOrder } = props;
   useEffect(() => {
-    if (!(role === 2)) {
-      history.push("/login");
+    if (!(token && JwtDecode(token) && JwtDecode(token).role_id === 2)) {
       window.localStorage.removeItem("token");
+      history.push("/login");
     }
-    getListOrder();
+    getListOrder(JwtDecode(token) && JwtDecode(token).id);
   }, [history, getListOrder]);
 
   return (
@@ -35,9 +36,6 @@ const OrderPage = (props) => {
         <thead>
           <tr>
             <th>Order Number</th>
-            <th>Title</th>
-            <th>Qty.</th>
-            <th>Price</th>
             <th>Total</th>
           </tr>
         </thead>

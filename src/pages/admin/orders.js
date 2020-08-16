@@ -6,6 +6,7 @@ import Footer from "../../components/footer";
 import Order from "../../components/orderAdmin";
 import Header from "../../components/headerAdmin";
 import { Table } from "react-bootstrap";
+import JwtDecode from "jwt-decode";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -15,18 +16,18 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   console.log(state, "ini state di page orders");
   return {
-    user: state.users,
     orders: state.orders.orders,
   };
 };
 const OrderPage = (props) => {
-  const { user, orders, history, getListOrder } = props;
+  const { orders, history, getListOrder } = props;
   useEffect(() => {
-    if (!(user && user.user && user.user.role_id === 1 && token)) {
+    if (!(token && JwtDecode(token) && JwtDecode(token).role_id === 1)) {
+      window.localStorage.removeItem("token");
       history.push("/login");
     }
     getListOrder();
-  }, [user, history, getListOrder]);
+  }, [history, getListOrder]);
   return (
     <div>
       <Header />
@@ -36,9 +37,6 @@ const OrderPage = (props) => {
             <th>User Id</th>
             <th>Nama Pelanggan</th>
             <th>Order Number</th>
-            <th>Title</th>
-            <th>Qty.</th>
-            <th>Price</th>
             <th>Total</th>
           </tr>
         </thead>

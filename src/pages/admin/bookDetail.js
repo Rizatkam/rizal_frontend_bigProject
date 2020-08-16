@@ -6,6 +6,8 @@ import axios from "axios";
 import { ENDPOINT, token } from "../../utils/globals";
 import { getBookById, updateBook, deleteBook } from "../../store/actions";
 import Header from "../../components/headerAdmin";
+import Footer from "../../components/footer";
+import JwtDecode from "jwt-decode";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -18,7 +20,6 @@ const mapStateToProps = (state) => {
   console.log(state, "Ini state dari page BookDetailPage mapStateToProps");
   return {
     book: state.books.book,
-    user: state.users,
   };
 };
 
@@ -37,15 +38,7 @@ const BookDetailPage = (props) => {
   const [description, setDesc] = useState("");
   const [dataKategori, setDataKategori] = useState([]);
   const [variant, setVariant] = useState("");
-  const {
-    book,
-    user,
-    match,
-    history,
-    getBookById,
-    updateBook,
-    deleteBook,
-  } = props;
+  const { book, match, history, getBookById, updateBook, deleteBook } = props;
 
   async function getCategory() {
     const request = await axios.get(`${ENDPOINT}kategori`);
@@ -74,10 +67,11 @@ const BookDetailPage = (props) => {
     getCategory();
   }, [book]);
   useEffect(() => {
-    if (!(user && user.user && user.user.role_id === 1 && token)) {
+    if (!(token && JwtDecode(token) && JwtDecode(token).role_id === 1)) {
+      window.localStorage.removeItem("token");
       history.push("/login");
     }
-  }, [user, history]);
+  }, [history]);
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -278,6 +272,7 @@ const BookDetailPage = (props) => {
           )}
         </Card>
       </div>
+      <Footer />
     </div>
   );
 };
