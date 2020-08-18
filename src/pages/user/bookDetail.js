@@ -55,8 +55,7 @@ const BookDetailPage = (props) => {
     }
   }, [history]);
 
-  const AddToCart = (e) => {
-    e.preventDefault();
+  const AddToCart = () => {
     addCart(data);
     alert("The Books has been added to your cart!");
     setGoto(true);

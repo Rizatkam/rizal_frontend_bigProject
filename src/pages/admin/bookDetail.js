@@ -75,8 +75,7 @@ const BookDetailPage = (props) => {
     }
   }, [history]);
 
-  const handleUpdate = (e) => {
-    e.preventDefault();
+  const handleUpdate = () => {
     const data = new FormData();
     data.append("status_id", status_id);
     data.append("kategori_id", kategori_id);
@@ -95,8 +94,7 @@ const BookDetailPage = (props) => {
       setGoto(false);
     }
   };
-  const handleDelete = (e) => {
-    e.preventDefault();
+  const handleDelete = () => {
     deleteBook(id);
     alert("Book has been deleted!");
     setGoto(true);

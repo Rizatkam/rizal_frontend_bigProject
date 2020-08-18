@@ -7,6 +7,7 @@ import {
 } from "../../store/actions";
 import { connect } from "react-redux";
 import JwtDecode from "jwt-decode";
+import numeral from "numeral";
 import { Redirect } from "react-router-dom";
 import { Table, Button } from "react-bootstrap";
 import { token } from "../../utils/globals";
@@ -39,15 +40,13 @@ const Checkout = (props) => {
     cart && cart.map((val) => deleteCart(val.id, JwtDecode(token).id));
   };
 
-  const handleUpdate = (id, quantity, total, e) => {
-    e.preventDefault();
+  const handleUpdate = (id, quantity, total) => {
     updateCart(id, JwtDecode(token).id, quantity, total);
   };
-  const handleDelete = (id, e) => {
-    e.preventDefault();
+  const handleDelete = (id) => {
     deleteCart(id, JwtDecode(token).id);
   };
-  const handleOrder = async (e) => {
+  const handleOrder = async () => {
     const data = {
       user_id: JwtDecode(token) && JwtDecode(token).id,
       total: grandTotal,
@@ -65,7 +64,6 @@ const Checkout = (props) => {
     delAllCart();
     alert("The Book is ordered, and will be shipped tomorrow!");
     setGoto(true);
-    e.preventDefault();
   };
   useEffect(() => {
     if (!(token && JwtDecode(token) && JwtDecode(token).role_id === 2)) {
@@ -109,7 +107,7 @@ const Checkout = (props) => {
               })}
             <tr>
               <td colspan="3">Total Pembayaran</td>
-              <td>{grandTotal}</td>
+              <td>{`Rp ${numeral(grandTotal).format("0,0")}`}</td>
             </tr>
           </tbody>
           <Button variant="success" onClick={() => handleOrder()}>

@@ -38,15 +38,13 @@ const Categories = (props) => {
     deleteCategory,
     addCategory,
   } = props;
-  const handleUpdate = (id, data, e) => {
+  const handleUpdate = (id, data) => {
     updateCategory(id, data);
     alert("Category has been updated!");
-    e.preventDefault();
   };
-  const handleDelete = (id, e) => {
+  const handleDelete = (id) => {
     deleteCategory(id);
     alert("Category has been deleted!");
-    e.preventDefault();
   };
   const onSubmitAddCategory = (e) => {
     addCategory(name);
