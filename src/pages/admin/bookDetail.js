@@ -243,6 +243,8 @@ const BookDetailPage = (props) => {
                 <h6 className="text-left">Description :</h6>
                 {edit ? (
                   <Form.Control
+                    as="textarea"
+                    rows="3"
                     placeholder="Description"
                     value={description}
                     onChange={(e) => setDesc(e.target.value)}

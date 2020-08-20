@@ -152,6 +152,8 @@ const AddBook = (props) => {
             <Form.Group controlId="formGridIdDesc">
               <Form.Label>Description</Form.Label>
               <Form.Control
+                as="textarea"
+                rows="3"
                 value={description}
                 onChange={(e) => setDesc(e.target.value)}
               />

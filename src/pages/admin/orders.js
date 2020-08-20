@@ -10,7 +10,7 @@ import JwtDecode from "jwt-decode";
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListOrder: () => dispatch(getListOrder()),
+    getListOrder: (uid) => dispatch(getListOrder(uid)),
   };
 };
 const mapStateToProps = (state) => {
@@ -26,7 +26,7 @@ const OrderPage = (props) => {
       window.localStorage.removeItem("token");
       history.push("/login");
     }
-    getListOrder();
+    getListOrder("");
   }, [history, getListOrder]);
   return (
     <div>
